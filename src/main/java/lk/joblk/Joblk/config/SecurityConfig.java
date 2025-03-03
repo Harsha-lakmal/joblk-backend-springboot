@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfig {
 
     @Autowired
@@ -27,7 +28,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf (AbstractHttpConfigurer::disable).authorizeHttpRequests (request -> request.requestMatchers ("/api/v1/user/register", "/api/v1/user/login", "/api/v1/user/getAllUsers", "/api/v1/user/getUser/{username}", "/api/v1/course/addCourse/**", "/api/v1/course/updateCourse", "/api/v1/course/deleteCourse/**", "/api/v1/course/searchCourse/**", "/api/v1/course/getAllCourse", "/api/v1/course/upload/**", "/api/v1/course/get/image/**", "/api/v1/job/addJob/**", "/api/v1/job/updateJob", "/api/v1/job/deleteJob/**", "/api/v1/job/searchJob/**", "/api/v1/job/getAllJobs", "/api/v1/job/upload/**", "/api/v1/job/get/image/**", "/api/v1/job/delete/image/**", "/api/v1/job/update/image/**", "/api/v1/course/update/image/**", "/api/v1/course/delete/image/**", "/api/v1/user/updateUser", "/api/v1/user/deleteUser/**", "/api/v1/user/uploadProfile/**", "/api/v1/user/get/imageProfile/**", "/api/v1/user/delete/imageProfile/**", "/api/v1/user/update/imageProfile/**", "/api/v1/user/uploadCover/**", "/api/v1/user/get/imageCover/**", "/api/v1/user/delete/imageCover/**", "/api/v1/user/update/imageCover/**"
+        return httpSecurity.csrf (AbstractHttpConfigurer::disable).authorizeHttpRequests (request -> request.requestMatchers (
+                "/api/v1/user/register", "/api/v1/user/login",
+                "/api/v1/user/getAllUsers", "/api/v1/user/getUser/{username}",
+                "/api/v1/course/addCourse/**", "/api/v1/course/updateCourse",
+                "/api/v1/course/deleteCourse/**", "/api/v1/course/searchCourse/**", "/api/v1/course/getAllCourse",
+                "/api/v1/course/upload/**",
+                "/api/v1/course/get/image/**",
+                "/api/v1/job/addJob/**", "/api/v1/job/updateJob", "/api/v1/job/deleteJob/**",
+                "/api/v1/job/searchJob/**", "/api/v1/job/getAllJobs", "/api/v1/job/upload/**", "/api/v1/job/get/image/**",
+                "/api/v1/job/delete/image/**", "/api/v1/job/update/image/**", "/api/v1/course/update/image/**",
+                "/api/v1/course/delete/image/**", "/api/v1/user/updateUser", "/api/v1/user/deleteUser/**",
+                "/api/v1/user/uploadProfile/**", "/api/v1/user/get/imageProfile/**",
+                "/api/v1/user/delete/imageProfile/**", "/api/v1/user/update/imageProfile/**",
+                "/api/v1/user/uploadCover/**", "/api/v1/user/get/imageCover/**", "/api/v1/user/delete/imageCover/**", "/api/v1/user/update/imageCover/**"
+                        ,"/api/v1/user/login"
 
         ).permitAll ().anyRequest ().authenticated ()).addFilterBefore (jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build ();
     }

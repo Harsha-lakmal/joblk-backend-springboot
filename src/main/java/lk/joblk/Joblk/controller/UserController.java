@@ -189,8 +189,8 @@ public class UserController {
     }
 
     private MediaType getMediaTypeForFileExtension(String extension) {
-        switch (extension.toLowerCase ()) {
-            case "png":
+            switch (extension.toLowerCase ()) {
+                case "png":
                 return MediaType.IMAGE_PNG;
             case "gif":
                 return MediaType.IMAGE_GIF;
