@@ -15,7 +15,6 @@ public class JobDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "job_id")
     private int jobId;
-
     private String jobTitle;
     private String jobDescription;
     private String qualifications;
