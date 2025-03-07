@@ -21,7 +21,7 @@ public class Course {
     private String courseQualification;
     private String courseContent;
     private String courseStartDate;
-    private String imgPath  ;
+    private String imgPath;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
