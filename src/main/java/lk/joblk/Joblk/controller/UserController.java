@@ -135,6 +135,34 @@ public class UserController {
     }
 
 
+
+    @DeleteMapping("delete/user/{id}")
+    public  ResponseEntity<ResponseDto> deleteUserId (@PathVariable String id){
+        try {
+            String res = userService.deleteUserId (id);
+            if (res.equals ("00")) {
+                responseDto.setMessage ("Success to delete User..");
+                responseDto.setCode (VarList.RSP_SUCCESS);
+                responseDto.setContent (id);
+                return new ResponseEntity<> (responseDto, HttpStatus.ACCEPTED);
+            } else {
+                responseDto.setMessage ("Error  user not User ");
+                responseDto.setCode (VarList.RSP_ERROR);
+                responseDto.setContent (null);
+                return new ResponseEntity<> (responseDto, HttpStatus.BAD_REQUEST);
+            }
+
+        } catch (Exception e) {
+            responseDto.setMessage ("Error  not delete  User ");
+            responseDto.setCode (VarList.RSP_ERROR);
+            responseDto.setContent (null);
+            return new ResponseEntity<> (responseDto, HttpStatus.BAD_REQUEST);
+
+        }
+
+    }
+
+
     //image upload part of profile image
 
     @PostMapping("/uploadProfile/{userId}")

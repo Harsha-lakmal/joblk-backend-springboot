@@ -26,4 +26,21 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public Course(int courseId) {
+        this.courseId = courseId;
+
+    }
+
+    public Course(int courseId, String courseTitle, String courseDescription, String courseQualification, String courseStartDate, String courseContent, String imgPath, String courseLocation) {
+        this.courseId = courseId;
+        this.courseTitle = courseTitle;
+        this.courseDescription = courseDescription;
+        this.courseQualification = courseQualification;
+        this.courseContent = courseContent;
+        this.imgPath = imgPath;
+        this.courseLocation = courseLocation;
+        this.courseStartDate = courseStartDate;
+
+    }
 }

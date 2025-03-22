@@ -197,5 +197,32 @@ public class CourseServiceImpl implements CourseService {
         return "Image not updated";
     }
 
+    @Override
+
+    public CourseDto courseSave(CourseDto courseDto, String userId) {
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        Course course = new Course(
+                courseDto.getCourseId(),
+                courseDto.getCourseTitle(),
+                courseDto.getCourseDescription(),
+                courseDto.getCourseQualification(),
+                courseDto.getCourseStartDate(),
+                courseDto.getCourseContent(),
+                courseDto.getImgPath(),
+                courseDto.getCourseLocation()
+        );
+
+        course.setUser(user);
+
+        Course savedCourse = courseRepo.save(course);
+        return new CourseDto(savedCourse.getCourseId(), savedCourse.getCourseTitle(),
+                savedCourse.getCourseDescription(), savedCourse.getCourseQualification(),
+                savedCourse.getCourseStartDate());
+    }
+
+
+
 }
 

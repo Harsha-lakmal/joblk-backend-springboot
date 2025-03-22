@@ -1,6 +1,8 @@
 package lk.joblk.Joblk.service.impl;
 
+import lk.joblk.Joblk.dto.CourseDto;
 import lk.joblk.Joblk.dto.JobDetailsDto;
+import lk.joblk.Joblk.entity.Course;
 import lk.joblk.Joblk.entity.JobDetails;
 import lk.joblk.Joblk.entity.User;
 import lk.joblk.Joblk.repo.JobDetailsRepo;
@@ -193,5 +195,28 @@ public class JobDetailsServiceImpl implements JobDetailsService {
             }
         }
         return VarList.RSP_DUPLICATED;
+    }
+
+    @Override
+
+    public JobDetailsDto jobsSave(JobDetailsDto jobDetailsDto, String userId) {
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+
+        JobDetails jobDetails = new JobDetails (
+                jobDetailsDto.getJobId (),
+                jobDetailsDto.getJobDescription (),
+                jobDetailsDto.getJobTitle () ,
+                jobDetailsDto.getQualifications () ,
+                jobDetailsDto.getJobClosingDate () ,
+                jobDetailsDto.getImgPath ()
+        );
+
+        jobDetails.setUser (user);
+        JobDetails save = jobDetailsRepo.save (jobDetails);
+
+        return  new  JobDetailsDto (save.getJobId (),save.getJobTitle (),save.getJobDescription (),save.getQualifications (),save.getJobClosingDate (),save.getImgPath ());
+
     }
 }

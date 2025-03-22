@@ -27,5 +27,7 @@ public interface CourseService {
     String deleteImage(int courseId);
 
     String updateImage(int courseId, MultipartFile file) throws IOException;
+
+    CourseDto courseSave(CourseDto courseDto, String userId);
 }
 

@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
 @CrossOrigin
 @RestController
 @RequestMapping("api/v1/course")
@@ -30,40 +31,11 @@ public class CourseController {
     @Autowired
     CourseRepo courseRepo;
 
-    @PostMapping("/addCourse/{userId}")
-    public ResponseEntity<ResponseDto> addCourse(@RequestBody CourseDto courseDto, @PathVariable String userId) {
-        try {
-            String res = courseService.addCourse (courseDto, userId);
-            ResponseDto responseDto = new ResponseDto ();
-
-            switch (res) {
-                case VarList.RSP_SUCCESS:
-                    responseDto.setMessage ("Course added successfully.");
-                    responseDto.setCode (VarList.RSP_SUCCESS);
-                    responseDto.setContent (courseDto);
-                    return new ResponseEntity<> (responseDto, HttpStatus.CREATED);
-
-                case VarList.RSP_DUPLICATED:
-                    responseDto.setMessage ("Duplicate course found.");
-                    responseDto.setCode (VarList.RSP_DUPLICATED);
-                    responseDto.setContent (null);
-                    return new ResponseEntity<> (responseDto, HttpStatus.BAD_REQUEST);
-
-                default:
-                    responseDto.setMessage ("Unknown error while adding course.");
-                    responseDto.setCode (VarList.RSP_ERROR);
-                    responseDto.setContent (null);
-                    return new ResponseEntity<> (responseDto, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-
-        } catch (RuntimeException e) {
-            ResponseDto responseDto = new ResponseDto ();
-            responseDto.setMessage (e.getMessage ());
-            responseDto.setCode (VarList.RSP_ERROR);
-            responseDto.setContent (null);
-            return new ResponseEntity<> (responseDto, HttpStatus.BAD_REQUEST);
-        }
-    }
+@PostMapping("/addCourse/{userId}")
+public ResponseEntity<CourseDto> courseSave(@PathVariable String userId, @RequestBody CourseDto courseDto) {
+    CourseDto savedCourse = courseService.courseSave(courseDto, userId);
+    return new ResponseEntity<>(savedCourse, HttpStatus.CREATED);
+}
 
 
     @PutMapping("/updateCourse")

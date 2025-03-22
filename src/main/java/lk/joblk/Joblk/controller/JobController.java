@@ -1,5 +1,6 @@
 package lk.joblk.Joblk.controller;
 
+import lk.joblk.Joblk.dto.CourseDto;
 import lk.joblk.Joblk.dto.JobDetailsDto;
 import lk.joblk.Joblk.dto.ResponseDto;
 import lk.joblk.Joblk.entity.JobDetails;
@@ -31,40 +32,10 @@ public class JobController {
     JobDetailsRepo jobDetailsRepo;
 
     @PostMapping("/addJob/{userId}")
-    public ResponseEntity<ResponseDto> addJob(@RequestBody JobDetailsDto jobDetailsDto, @PathVariable String userId) {
-        try {
-
-            String res = jobDetailsService.addJob (jobDetailsDto, userId);
-            if (res.equals ("00")) {
-                responseDto.setMessage ("Success to add job..");
-                responseDto.setCode (VarList.RSP_SUCCESS);
-                responseDto.setContent (jobDetailsDto);
-                return new ResponseEntity<> (responseDto, HttpStatus.ACCEPTED);
-
-            } else if (res.equals ("06")) {
-                responseDto.setMessage ("DUPLICATED job add ...");
-                responseDto.setCode (VarList.RSP_DUPLICATED);
-                responseDto.setContent (jobDetailsDto);
-                return new ResponseEntity<> (responseDto, HttpStatus.BAD_REQUEST);
-            } else {
-                responseDto.setMessage ("Error  job not add");
-                responseDto.setCode (VarList.RSP_ERROR);
-                responseDto.setContent (null);
-                return new ResponseEntity<> (responseDto, HttpStatus.BAD_REQUEST);
-
-            }
-
-
-        } catch (Exception e) {
-            responseDto.setMessage ("Error  job not add");
-            responseDto.setCode (VarList.RSP_ERROR);
-            responseDto.setContent (null);
-            return new ResponseEntity<> (responseDto, HttpStatus.BAD_REQUEST);
-
-        }
-
+    public ResponseEntity<JobDetailsDto> jobsSave(@PathVariable String userId, @RequestBody JobDetailsDto jobDetailsDto) {
+        JobDetailsDto savedJob = jobDetailsService.jobsSave(jobDetailsDto, userId);
+        return new ResponseEntity<>(savedJob, HttpStatus.CREATED);
     }
-
 
     @PutMapping("/updateJob")
     public ResponseEntity<ResponseDto> updateJob(@RequestBody JobDetailsDto jobDetailsDto) {

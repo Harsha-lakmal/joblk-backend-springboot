@@ -39,4 +39,5 @@ public interface UserService extends UserDetailsService {
 
     String updateImageCover(String userId, MultipartFile file) throws IOException;
 
+    String deleteUserId(String id);
 }

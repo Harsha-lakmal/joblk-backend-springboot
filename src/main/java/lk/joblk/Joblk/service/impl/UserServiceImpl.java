@@ -297,6 +297,19 @@ public class UserServiceImpl implements UserService {
         return "Image not updated";
     }
 
+    @Override
+    public String deleteUserId(String id) {
+        if (userRepo.existsById (id)) {
+            Optional<User> byId = userRepo.findById (id);
+            if (byId.isPresent ()) {
+                userRepo.delete (byId.get ());
+                return VarList.RSP_SUCCESS;
+            }
+
+        }
+        return VarList.RSP_NO_DATA_FOUND;
+    }
+
 }
 
 

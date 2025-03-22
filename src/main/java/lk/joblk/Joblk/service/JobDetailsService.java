@@ -27,4 +27,6 @@ public interface JobDetailsService {
     String updateImage(int jobId, MultipartFile file) throws IOException;
 
     String updateJob(JobDetailsDto jobDetailsDto);
+
+    JobDetailsDto jobsSave(JobDetailsDto jobDetailsDto, String userId);
 }

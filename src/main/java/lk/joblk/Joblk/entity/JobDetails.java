@@ -24,4 +24,15 @@ public class JobDetails {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public JobDetails(int jobId, String jobDescription, String jobTitle, String qualifications, String jobClosingDate, String imgPath) {
+        this.jobId = jobId;
+        this.jobTitle = jobTitle;
+        this.jobDescription = jobDescription;
+        this.jobClosingDate = jobClosingDate;
+        this.imgPath = imgPath;
+        this.user = new User();
+        this.qualifications = qualifications;
+
+    }
 }
