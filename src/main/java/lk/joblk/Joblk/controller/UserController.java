@@ -1,6 +1,7 @@
 package lk.joblk.Joblk.controller;
 
 
+import jakarta.annotation.Resource;
 import lk.joblk.Joblk.dto.LoginDto;
 import lk.joblk.Joblk.dto.ResponseDto;
 import lk.joblk.Joblk.dto.UserDto;
@@ -135,9 +136,8 @@ public class UserController {
     }
 
 
-
     @DeleteMapping("delete/user/{id}")
-    public  ResponseEntity<ResponseDto> deleteUserId (@PathVariable String id){
+    public ResponseEntity<ResponseDto> deleteUserId(@PathVariable String id) {
         try {
             String res = userService.deleteUserId (id);
             if (res.equals ("00")) {
@@ -218,8 +218,8 @@ public class UserController {
     }
 
     private MediaType getMediaTypeForFileExtension(String extension) {
-            switch (extension.toLowerCase ()) {
-                case "png":
+        switch (extension.toLowerCase ()) {
+            case "png":
                 return MediaType.IMAGE_PNG;
             case "gif":
                 return MediaType.IMAGE_GIF;
@@ -309,6 +309,59 @@ public class UserController {
         return s;
 
     }
+
+
+    //Cv document upload for user
+
+
+    @PostMapping("/uploadCvDocument/{userId}")
+    public ResponseEntity<String> addFiles(@RequestParam("file") MultipartFile file, @PathVariable String userId) {
+        try {
+            String result = userService.saveFile(file, userId);
+
+            if ("00".equals(result)) {
+                return new ResponseEntity<>("Upload Success!", HttpStatus.CREATED);
+            }
+            return new ResponseEntity<>("Upload Failed", HttpStatus.BAD_REQUEST);
+
+        } catch (IOException e) {
+            return new ResponseEntity<>("File processing error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Unexpected error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+@GetMapping("/getCvDocument/{userId}")
+public ResponseEntity<byte[]> getCvDocument(@PathVariable String userId) throws IOException {
+
+    Optional<User> userOpt = userRepo.findById(userId);
+    if (!userOpt.isPresent()) {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    User user = userOpt.get();
+    String cvUrl = user.getCvDocumentPath();
+
+    // Extract the file extension to determine the content type
+    String fileExtension = getFileExtension(cvUrl);
+    if (fileExtension == null || fileExtension.isEmpty()) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    // Fetch the CV document from the file system
+    byte[] cv = userService.getCvDocument(userId);
+
+    // Determine the correct media type based on file extension
+    MediaType mediaType = getMediaTypeForFileExtension(fileExtension);
+
+    // Set the headers and return the response with the CV document
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(mediaType);
+
+    return new ResponseEntity<>(cv, headers, HttpStatus.OK);
+}
+
 
 
 }

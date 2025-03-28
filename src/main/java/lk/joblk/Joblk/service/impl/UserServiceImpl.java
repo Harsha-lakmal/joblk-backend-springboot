@@ -26,9 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -309,6 +307,67 @@ public class UserServiceImpl implements UserService {
         }
         return VarList.RSP_NO_DATA_FOUND;
     }
+
+
+    //cv document upload for user
+    @Override
+    public String saveFile(MultipartFile file, String userId) {
+        try {
+            String fileName = file.getOriginalFilename();
+            Path uploadPath = Paths.get("upload", fileName);
+
+            Files.createDirectories(uploadPath.getParent());
+
+            Files.write(uploadPath, file.getBytes(), StandardOpenOption.CREATE);
+
+            String fileUrl = "http://localhost:8080/upload/" + fileName;
+
+            User user = userRepo.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+
+            user.setCvDocumentPath(fileUrl);
+            userRepo.save(user);
+
+            return "00";
+
+        } catch (IOException e) {
+            throw new RuntimeException("File upload failed: " + e.getMessage());
+        }
+    }
+
+
+
+    @Override
+    public byte[] getCvDocument(String userId) {
+        User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        String cvUrl = user.getCvDocumentPath();
+        System.out.println("Cv url: " + cvUrl);
+
+        // Extract the file name from the URL
+        String fileName = cvUrl.substring(cvUrl.lastIndexOf("/") + 1);
+        System.out.println("File name: " + fileName);
+
+        // Define the file path where the CV is stored
+        Path cvPath = Paths.get("upload/", fileName);
+        System.out.println("Cv path: " + cvPath);
+
+        // Check if the file exists; if not, throw an exception
+        if (!Files.exists(cvPath)) {
+            throw new RuntimeException("Cv document not found for userId: " + userId);
+        }
+
+        // Read the file content and return it as a byte array
+        try {
+            return Files.readAllBytes(cvPath);
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading CV document for userId: " + userId, e);
+        }
+    }
+
+
+
+
 
 }
 

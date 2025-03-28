@@ -27,6 +27,8 @@ public class User {
     private UserRoles role;
     private String imgPathProfile ;
     private  String imgPathCover  ;
+    private  String cvDocumentPath  ;
+
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
