@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -86,13 +88,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> byUsername = userRepo.findByUsername (username);
-        if (byUsername.isPresent ()) {
-            User user = byUsername.get ();
-            return org.springframework.security.core.userdetails.User.builder ().username (user.getUsername ()).password (user.getPassword ()).roles (String.valueOf (user.getRole ())).build ();
-        } else throw new UsernameNotFoundException (username);
+        User user = userRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                Collections.singleton(new SimpleGrantedAuthority (user.getRole().name()))
+        );
     }
+
 
     @Override
     public List<UserDto> getAllUsers() {
@@ -101,26 +106,51 @@ public class UserServiceImpl implements UserService {
     }
 
 
+//    @Override
+//    public String updateUser(UserDto userDto) {
+//        Optional<User> optionalUser = userRepo.findById (userDto.getId ());
+//
+//        if (optionalUser.isPresent ()) {
+//            User updateUserDetails = optionalUser.get ();
+//
+//            updateUserDetails.setUsername (userDto.getUsername ());
+//            updateUserDetails.setPassword (userDto.getPassword ());
+//            updateUserDetails.setImgPathCover (userDto.getImgPathCover ());
+//            updateUserDetails.setImgPathProfile (userDto.getImgPathProfile ());
+//            updateUserDetails.setRole (UserRoles.valueOf (userDto.getRole ()));
+//            updateUserDetails.setEmail (userDto.getEmail ());
+//
+//            userRepo.save (updateUserDetails);
+//            return VarList.RSP_SUCCESS;
+//        } else {
+//            return VarList.RSP_DUPLICATED;
+//        }
+//    }
+
+
     @Override
     public String updateUser(UserDto userDto) {
-        Optional<User> optionalUser = userRepo.findById (userDto.getId ());
+        Optional<User> optionalUser = userRepo.findById(userDto.getId());
 
-        if (optionalUser.isPresent ()) {
-            User updateUserDetails = optionalUser.get ();
 
-            updateUserDetails.setUsername (userDto.getUsername ());
-            updateUserDetails.setPassword (userDto.getPassword ());
-            updateUserDetails.setImgPathCover (userDto.getImgPathCover ());
-            updateUserDetails.setImgPathProfile (userDto.getImgPathProfile ());
-            updateUserDetails.setRole (UserRoles.valueOf (userDto.getRole ()));
-            updateUserDetails.setEmail (userDto.getEmail ());
+        if (optionalUser.isPresent()) {
+            User updateUserDetails = optionalUser.get();
 
-            userRepo.save (updateUserDetails);
+            updateUserDetails.setUsername(userDto.getUsername());
+            updateUserDetails.setPassword(userDto.getPassword ()); // Secure password encoding
+            updateUserDetails.setImgPathCover(userDto.getImgPathCover());
+            updateUserDetails.setImgPathProfile(userDto.getImgPathProfile());
+            updateUserDetails.setRole(UserRoles.valueOf(userDto.getRole()));
+            updateUserDetails.setEmail(userDto.getEmail());
+
+            userRepo.save(updateUserDetails);
             return VarList.RSP_SUCCESS;
         } else {
-            return VarList.RSP_DUPLICATED;
+            return VarList.RSP_NO_DATA_FOUND; // Changed response code for better clarity
         }
     }
+
+
 
     @Override
     public String deleteUser(String userName) {

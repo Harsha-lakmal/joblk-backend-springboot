@@ -75,35 +75,69 @@ public class UserController {
         }
     }
 
+//
+//    @PutMapping("/updateUser")
+//    public ResponseEntity<ResponseDto> updateUser(@RequestBody UserDto userDto) {
+//        ResponseDto responseDto = new ResponseDto ();
+//
+//        try {
+//            String res = userService.updateUser (userDto);
+//
+//            if (VarList.RSP_SUCCESS.equals (res)) {
+//                responseDto.setMessage ("Successfully updated user.");
+//                responseDto.setCode (VarList.RSP_SUCCESS);
+//                responseDto.setContent (userDto);
+//                return new ResponseEntity<> (responseDto, HttpStatus.OK);
+//            } else if (VarList.RSP_DUPLICATED.equals (res)) {
+//                responseDto.setMessage ("Duplicate entry. User update failed.");
+//                responseDto.setCode (VarList.RSP_DUPLICATED);
+//                responseDto.setContent (null);
+//                return new ResponseEntity<> (responseDto, HttpStatus.CONFLICT);
+//            } else {
+//                responseDto.setMessage ("Error: User update failed.");
+//                responseDto.setCode (VarList.RSP_ERROR);
+//                responseDto.setContent (null);
+//                return new ResponseEntity<> (responseDto, HttpStatus.BAD_REQUEST);
+//            }
+//        } catch (Exception e) {
+//            responseDto.setMessage ("Exception occurred: " + e.getMessage ());
+//            responseDto.setCode (VarList.RSP_ERROR);
+//            responseDto.setContent (null);
+//            return new ResponseEntity<> (responseDto, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+
+
 
     @PutMapping("/updateUser")
     public ResponseEntity<ResponseDto> updateUser(@RequestBody UserDto userDto) {
-        ResponseDto responseDto = new ResponseDto ();
+        ResponseDto responseDto = new ResponseDto();
 
         try {
-            String res = userService.updateUser (userDto);
+            String res = userService.updateUser(userDto);
 
-            if (VarList.RSP_SUCCESS.equals (res)) {
-                responseDto.setMessage ("Successfully updated user.");
-                responseDto.setCode (VarList.RSP_SUCCESS);
-                responseDto.setContent (userDto);
-                return new ResponseEntity<> (responseDto, HttpStatus.OK);
-            } else if (VarList.RSP_DUPLICATED.equals (res)) {
-                responseDto.setMessage ("Duplicate entry. User update failed.");
-                responseDto.setCode (VarList.RSP_DUPLICATED);
-                responseDto.setContent (null);
-                return new ResponseEntity<> (responseDto, HttpStatus.CONFLICT);
+            if (VarList.RSP_SUCCESS.equals(res)) {
+                responseDto.setMessage("Successfully updated user.");
+                responseDto.setCode(VarList.RSP_SUCCESS);
+                responseDto.setContent(userDto);
+                return new ResponseEntity<>(responseDto, HttpStatus.OK);
+            } else if (VarList.RSP_NO_DATA_FOUND.equals(res)) {
+                responseDto.setMessage("User not found. Update failed.");
+                responseDto.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDto.setContent(null);
+                return new ResponseEntity<>(responseDto, HttpStatus.NOT_FOUND);
             } else {
-                responseDto.setMessage ("Error: User update failed.");
-                responseDto.setCode (VarList.RSP_ERROR);
-                responseDto.setContent (null);
-                return new ResponseEntity<> (responseDto, HttpStatus.BAD_REQUEST);
+                responseDto.setMessage("Error: User update failed.");
+                responseDto.setCode(VarList.RSP_ERROR);
+                responseDto.setContent(null);
+                return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
-            responseDto.setMessage ("Exception occurred: " + e.getMessage ());
-            responseDto.setCode (VarList.RSP_ERROR);
-            responseDto.setContent (null);
-            return new ResponseEntity<> (responseDto, HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDto.setMessage("Exception occurred: " + e.getMessage());
+            responseDto.setCode(VarList.RSP_ERROR);
+            responseDto.setContent(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
