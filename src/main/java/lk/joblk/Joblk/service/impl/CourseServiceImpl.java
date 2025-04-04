@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,7 @@ public class CourseServiceImpl implements CourseService {
         course.setCourseTitle (courseDto.getCourseTitle ());
         course.setCourseLocation (courseDto.getCourseLocation ());
         course.setImgPath (courseDto.getImgPath ());
+        course.setDateUpload (courseDto.getDateUpload ());
 
         User user = userRepo.findById (String.valueOf (userId)).orElseThrow (() -> new RuntimeException ("User not found"));
         course.setUser (user);
@@ -211,7 +213,8 @@ public class CourseServiceImpl implements CourseService {
                 courseDto.getCourseStartDate(),
                 courseDto.getCourseContent(),
                 courseDto.getImgPath(),
-                courseDto.getCourseLocation()
+                courseDto.getCourseLocation() ,
+                courseDto.getDateUpload ()
         );
 
         course.setUser(user);
@@ -220,6 +223,37 @@ public class CourseServiceImpl implements CourseService {
         return new CourseDto(savedCourse.getCourseId(), savedCourse.getCourseTitle(),
                 savedCourse.getCourseDescription(), savedCourse.getCourseQualification(),
                 savedCourse.getCourseStartDate());
+    }
+
+
+
+
+
+    @Override
+    public List<CourseDto> getAllCourseDetails() {
+        List<Course> allCourses = courseRepo.findAllOrderedByDateUpload(); // Sorted by dateUpload DESC
+        List<CourseDto> courseDTOList = new ArrayList<>();
+
+        for (Course course : allCourses) {
+            String userId = course.getUser() != null ? course.getUser().getUserId() : "";
+
+            CourseDto courseDto = new CourseDto(
+                    course.getCourseId(),
+                    course.getCourseTitle(),
+                    course.getCourseDescription(),
+                    course.getCourseLocation(),
+                    course.getCourseQualification(),
+                    course.getCourseContent(),
+                    course.getCourseStartDate(),
+                    course.getImgPath(),
+                    course.getDateUpload(),
+                    userId
+            );
+
+            courseDTOList.add(courseDto);
+        }
+
+        return courseDTOList;
     }
 
 

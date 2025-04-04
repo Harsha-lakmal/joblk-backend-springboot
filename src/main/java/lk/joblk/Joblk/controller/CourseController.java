@@ -139,6 +139,19 @@ public ResponseEntity<CourseDto> courseSave(@PathVariable String userId, @Reques
         }
     }
 
+@GetMapping("/getAllCourseDetails")
+    public ResponseEntity<List<CourseDto>> getAllCourseDetails() {
+        List<CourseDto> courseDTOList = courseService.getAllCourseDetails();
+
+        if (courseDTOList.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(courseDTOList);
+    }
+
+
+
 
     //image upload for course image
 

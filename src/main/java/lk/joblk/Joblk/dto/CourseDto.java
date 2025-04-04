@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class CourseDto {
@@ -16,10 +15,11 @@ public class CourseDto {
     private String courseContent;
     private String courseStartDate;
     private String imgPath ;
+    private String dateUpload ;
+    private String userId;  // Add userId field
 
-    public CourseDto(int courseId) {
-        this.courseId = courseId;
-    }
+
+
 
     public CourseDto(int courseId, String courseTitle, String courseTitle1, String courseTitle2, String courseTitle3) {
         this.courseId = courseId;
@@ -29,4 +29,29 @@ public class CourseDto {
         this.courseQualification = courseTitle3;
 
     }
-}
+
+    // Constructor
+    public CourseDto(int courseId, String courseTitle, String courseDescription, String courseLocation,String courseQualification, String courseContent, String courseStartDate, String imgPath, String dateUpload, String userId) {
+        this.courseId = courseId;
+        this.courseTitle = courseTitle;
+        this.courseDescription = courseDescription;
+        this.courseLocation = courseLocation;
+        this.courseQualification = courseQualification;
+        this.courseContent = courseContent;
+        this.courseStartDate = courseStartDate;
+        this.imgPath = imgPath;
+        this.dateUpload = dateUpload;
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+
+
+    }

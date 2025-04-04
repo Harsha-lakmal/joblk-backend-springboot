@@ -68,6 +68,9 @@ public class JobController {
     }
 
 
+
+
+
     @DeleteMapping("/deleteJob/{jobId}")
     public ResponseEntity<ResponseDto> deleteJob(@PathVariable int jobId) {
 
@@ -141,6 +144,14 @@ public class JobController {
 
     }
 
+    @GetMapping("/getAllJobsDetails")
+    public ResponseEntity<List<JobDetailsDto>> getAllJobsDetails() {
+        List<JobDetailsDto> allDetailsJobs = jobDetailsService.getAllDetailsJobs();
+        if (allDetailsJobs.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(allDetailsJobs);
+    }
 
     //image upload part for job image
 

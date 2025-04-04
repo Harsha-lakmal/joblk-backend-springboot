@@ -13,6 +13,9 @@ public class UserDto {
     private String password;
     private String email;
     private String role;
-    private String imgPathProfile ;
-    private  String imgPathCover ;
+    private String imgPathProfile;
+    private String imgPathCover;
+    private String registerDate;
+
+
 }

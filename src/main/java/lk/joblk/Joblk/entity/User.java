@@ -28,6 +28,7 @@ public class User {
     private String imgPathProfile ;
     private  String imgPathCover  ;
     private  String cvDocumentPath  ;
+    private String registerDate ;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;

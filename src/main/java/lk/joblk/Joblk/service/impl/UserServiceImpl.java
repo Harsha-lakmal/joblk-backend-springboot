@@ -27,7 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
@@ -88,14 +91,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        User user = userRepo.findByUsername (username).orElseThrow (() -> new UsernameNotFoundException ("User not found: " + username));
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                Collections.singleton(new SimpleGrantedAuthority (user.getRole().name()))
-        );
+        return new org.springframework.security.core.userdetails.User (user.getUsername (), user.getPassword (), Collections.singleton (new SimpleGrantedAuthority (user.getRole ().name ())));
     }
 
 
@@ -106,50 +104,36 @@ public class UserServiceImpl implements UserService {
     }
 
 
-//    @Override
-//    public String updateUser(UserDto userDto) {
-//        Optional<User> optionalUser = userRepo.findById (userDto.getId ());
-//
-//        if (optionalUser.isPresent ()) {
-//            User updateUserDetails = optionalUser.get ();
-//
-//            updateUserDetails.setUsername (userDto.getUsername ());
-//            updateUserDetails.setPassword (userDto.getPassword ());
-//            updateUserDetails.setImgPathCover (userDto.getImgPathCover ());
-//            updateUserDetails.setImgPathProfile (userDto.getImgPathProfile ());
-//            updateUserDetails.setRole (UserRoles.valueOf (userDto.getRole ()));
-//            updateUserDetails.setEmail (userDto.getEmail ());
-//
-//            userRepo.save (updateUserDetails);
-//            return VarList.RSP_SUCCESS;
-//        } else {
-//            return VarList.RSP_DUPLICATED;
-//        }
-//    }
+    public List<UserDto> getAllOderByUsers() {
+        List<User> users = userRepo.findAllDetails (); // use the sorted query
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
+    }
+
 
 
     @Override
     public String updateUser(UserDto userDto) {
-        Optional<User> optionalUser = userRepo.findById(userDto.getId());
+        Optional<User> optionalUser = userRepo.findById (userDto.getId ());
 
 
-        if (optionalUser.isPresent()) {
-            User updateUserDetails = optionalUser.get();
+        if (optionalUser.isPresent ()) {
+            User updateUserDetails = optionalUser.get ();
 
-            updateUserDetails.setUsername(userDto.getUsername());
-            updateUserDetails.setPassword(userDto.getPassword ()); // Secure password encoding
-            updateUserDetails.setImgPathCover(userDto.getImgPathCover());
-            updateUserDetails.setImgPathProfile(userDto.getImgPathProfile());
-            updateUserDetails.setRole(UserRoles.valueOf(userDto.getRole()));
-            updateUserDetails.setEmail(userDto.getEmail());
+            updateUserDetails.setUsername (userDto.getUsername ());
+            updateUserDetails.setPassword (userDto.getPassword ()); // Secure password encoding
+            updateUserDetails.setImgPathCover (userDto.getImgPathCover ());
+            updateUserDetails.setImgPathProfile (userDto.getImgPathProfile ());
+            updateUserDetails.setRole (UserRoles.valueOf (userDto.getRole ()));
+            updateUserDetails.setEmail (userDto.getEmail ());
 
-            userRepo.save(updateUserDetails);
+            userRepo.save (updateUserDetails);
             return VarList.RSP_SUCCESS;
         } else {
             return VarList.RSP_NO_DATA_FOUND; // Changed response code for better clarity
         }
     }
-
 
 
     @Override
@@ -343,60 +327,63 @@ public class UserServiceImpl implements UserService {
     @Override
     public String saveFile(MultipartFile file, String userId) {
         try {
-            String fileName = file.getOriginalFilename();
-            Path uploadPath = Paths.get("upload", fileName);
+            String fileName = file.getOriginalFilename ();
+            Path uploadPath = Paths.get ("upload", fileName);
 
-            Files.createDirectories(uploadPath.getParent());
+            Files.createDirectories (uploadPath.getParent ());
 
-            Files.write(uploadPath, file.getBytes(), StandardOpenOption.CREATE);
+            Files.write (uploadPath, file.getBytes (), StandardOpenOption.CREATE);
 
             String fileUrl = "http://localhost:8080/upload/" + fileName;
 
-            User user = userRepo.findById(userId)
-                    .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+            User user = userRepo.findById (userId).orElseThrow (() -> new RuntimeException ("User not found with ID: " + userId));
 
-            user.setCvDocumentPath(fileUrl);
-            userRepo.save(user);
+            user.setCvDocumentPath (fileUrl);
+            userRepo.save (user);
 
             return "00";
 
         } catch (IOException e) {
-            throw new RuntimeException("File upload failed: " + e.getMessage());
+            throw new RuntimeException ("File upload failed: " + e.getMessage ());
         }
     }
-
 
 
     @Override
     public byte[] getCvDocument(String userId) {
-        User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        User user = userRepo.findById (userId).orElseThrow (() -> new RuntimeException ("User not found with id: " + userId));
 
-        String cvUrl = user.getCvDocumentPath();
-        System.out.println("Cv url: " + cvUrl);
+        String cvUrl = user.getCvDocumentPath ();
+        System.out.println ("Cv url: " + cvUrl);
 
         // Extract the file name from the URL
-        String fileName = cvUrl.substring(cvUrl.lastIndexOf("/") + 1);
-        System.out.println("File name: " + fileName);
+        String fileName = cvUrl.substring (cvUrl.lastIndexOf ("/") + 1);
+        System.out.println ("File name: " + fileName);
 
         // Define the file path where the CV is stored
-        Path cvPath = Paths.get("upload/", fileName);
-        System.out.println("Cv path: " + cvPath);
+        Path cvPath = Paths.get ("upload/", fileName);
+        System.out.println ("Cv path: " + cvPath);
 
         // Check if the file exists; if not, throw an exception
-        if (!Files.exists(cvPath)) {
-            throw new RuntimeException("Cv document not found for userId: " + userId);
+        if (!Files.exists (cvPath)) {
+            throw new RuntimeException ("Cv document not found for userId: " + userId);
         }
 
         // Read the file content and return it as a byte array
         try {
-            return Files.readAllBytes(cvPath);
+            return Files.readAllBytes (cvPath);
         } catch (IOException e) {
-            throw new RuntimeException("Error reading CV document for userId: " + userId, e);
+            throw new RuntimeException ("Error reading CV document for userId: " + userId, e);
         }
     }
 
 
-
+    @Override
+    public UserDto getUserById(String userId) {
+        return userRepo.findById(userId)
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .orElseThrow(() -> new RuntimeException("User not found with userId: " + userId));
+    }
 
 
 }

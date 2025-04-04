@@ -50,6 +50,7 @@ public class JobDetailsServiceImpl implements JobDetailsService {
             jobDetails.setJobClosingDate (jobDetailsDto.getJobClosingDate ());
             jobDetails.setQualifications (jobDetailsDto.getQualifications ());
             jobDetails.setImgPath (jobDetailsDto.getImgPath ());
+            jobDetails.setDateUpload (jobDetailsDto.getDateUpload ());
 
             User user = userRepo.findById (String.valueOf (userId)).orElseThrow (() -> new RuntimeException ("User not found"));
             jobDetails.setUser (user);
@@ -210,13 +211,72 @@ public class JobDetailsServiceImpl implements JobDetailsService {
                 jobDetailsDto.getJobTitle () ,
                 jobDetailsDto.getQualifications () ,
                 jobDetailsDto.getJobClosingDate () ,
-                jobDetailsDto.getImgPath ()
+                jobDetailsDto.getImgPath () ,
+                jobDetailsDto.getDateUpload ()
         );
 
         jobDetails.setUser (user);
         JobDetails save = jobDetailsRepo.save (jobDetails);
 
-        return  new  JobDetailsDto (save.getJobId (),save.getJobTitle (),save.getJobDescription (),save.getQualifications (),save.getJobClosingDate (),save.getImgPath ());
+        return  new  JobDetailsDto (save.getJobId (),save.getJobTitle (),save.getJobDescription (),save.getQualifications (),save.getJobClosingDate (),save.getImgPath (),save.getDateUpload ());
 
+    }
+
+//    @Override
+//    public List<JobDetailsDto> getAllDetailsJobs() {
+//            List<JobDetails> allDetailsJobs = jobDetailsRepo.findAll ();
+//            List<JobDetailsDto> allDetailsJobsDto = new ArrayList<>();
+//
+//
+//
+//            for (JobDetails jobDetails : allDetailsJobs) {
+//
+//
+//                String userId = jobDetails.getUser() != null ? jobDetails.getUser().getUserId() : "";
+//
+//
+//                JobDetailsDto jobDetailsDto =  new  JobDetailsDto (
+//
+//                        jobDetails.getJobId () ,
+//                        jobDetails.getJobDescription () ,
+//                        jobDetails.getJobClosingDate () ,
+//                        jobDetails.getDateUpload () ,
+//                        jobDetails.getImgPath () ,
+//                        jobDetails.getQualifications () ,
+//                        jobDetails.getJobTitle () ,
+//                        userId
+//
+//                );
+//
+//                allDetailsJobsDto.add (jobDetailsDto);
+//
+//
+//            }
+//        return allDetailsJobsDto ;
+//    }
+
+
+
+    public List<JobDetailsDto> getAllDetailsJobs() {
+        List<JobDetails> allDetailsJobs = jobDetailsRepo.findAllOrderedByDateUpload(); // Use the new query
+        List<JobDetailsDto> allDetailsJobsDto = new ArrayList<>();
+
+        for (JobDetails jobDetails : allDetailsJobs) {
+            String userId = jobDetails.getUser() != null ? jobDetails.getUser().getUserId() : "";
+
+            JobDetailsDto jobDetailsDto = new JobDetailsDto(
+                    jobDetails.getJobId(),
+                    jobDetails.getJobDescription(),
+                    jobDetails.getJobClosingDate(),
+                    jobDetails.getDateUpload(),
+                    jobDetails.getImgPath(),
+                    jobDetails.getQualifications(),
+                    jobDetails.getJobTitle(),
+                    userId
+            );
+
+            allDetailsJobsDto.add(jobDetailsDto);
+        }
+        return allDetailsJobsDto;
     }
 }

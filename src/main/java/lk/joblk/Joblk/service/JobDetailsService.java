@@ -29,4 +29,6 @@ public interface JobDetailsService {
     String updateJob(JobDetailsDto jobDetailsDto);
 
     JobDetailsDto jobsSave(JobDetailsDto jobDetailsDto, String userId);
+
+    List<JobDetailsDto> getAllDetailsJobs();
 }

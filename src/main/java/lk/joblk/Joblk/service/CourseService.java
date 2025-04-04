@@ -2,6 +2,7 @@ package lk.joblk.Joblk.service;
 
 
 import lk.joblk.Joblk.dto.CourseDto;
+import lk.joblk.Joblk.entity.Course;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,5 +30,7 @@ public interface CourseService {
     String updateImage(int courseId, MultipartFile file) throws IOException;
 
     CourseDto courseSave(CourseDto courseDto, String userId);
+
+    List<CourseDto> getAllCourseDetails();
 }
 

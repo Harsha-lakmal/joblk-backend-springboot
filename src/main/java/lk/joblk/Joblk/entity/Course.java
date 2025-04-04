@@ -22,17 +22,13 @@ public class Course {
     private String courseContent;
     private String courseStartDate;
     private String imgPath;
+    private String dateUpload ;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Course(int courseId) {
-        this.courseId = courseId;
-
-    }
-
-    public Course(int courseId, String courseTitle, String courseDescription, String courseQualification, String courseStartDate, String courseContent, String imgPath, String courseLocation) {
+    public Course(int courseId, String courseTitle, String courseDescription, String courseQualification, String courseStartDate, String courseContent, String imgPath, String courseLocation, String dateUpload) {
         this.courseId = courseId;
         this.courseTitle = courseTitle;
         this.courseDescription = courseDescription;
@@ -41,6 +37,9 @@ public class Course {
         this.imgPath = imgPath;
         this.courseLocation = courseLocation;
         this.courseStartDate = courseStartDate;
+        this.dateUpload = dateUpload;
 
     }
+
+
 }

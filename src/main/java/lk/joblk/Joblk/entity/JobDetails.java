@@ -20,12 +20,13 @@ public class JobDetails {
     private String qualifications;
     private String jobClosingDate;
     private String imgPath;
+    private String dateUpload ;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public JobDetails(int jobId, String jobDescription, String jobTitle, String qualifications, String jobClosingDate, String imgPath) {
+    public JobDetails(int jobId, String jobDescription, String jobTitle, String qualifications, String jobClosingDate, String imgPath,String dateUpload) {
         this.jobId = jobId;
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
@@ -33,6 +34,7 @@ public class JobDetails {
         this.imgPath = imgPath;
         this.user = new User();
         this.qualifications = qualifications;
+        this.dateUpload = dateUpload;
 
     }
 }
