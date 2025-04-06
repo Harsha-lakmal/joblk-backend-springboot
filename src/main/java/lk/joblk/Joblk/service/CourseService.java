@@ -2,6 +2,7 @@ package lk.joblk.Joblk.service;
 
 
 import lk.joblk.Joblk.dto.CourseDto;
+import lk.joblk.Joblk.dto.JobDetailsDto;
 import lk.joblk.Joblk.entity.Course;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,5 +33,8 @@ public interface CourseService {
     CourseDto courseSave(CourseDto courseDto, String userId);
 
     List<CourseDto> getAllCourseDetails();
+
+
+    List<CourseDto> getCourseUserId(String userId);
 }
 

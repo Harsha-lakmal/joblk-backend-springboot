@@ -221,40 +221,6 @@ public class JobDetailsServiceImpl implements JobDetailsService {
 
     }
 
-//    @Override
-//    public List<JobDetailsDto> getAllDetailsJobs() {
-//            List<JobDetails> allDetailsJobs = jobDetailsRepo.findAll ();
-//            List<JobDetailsDto> allDetailsJobsDto = new ArrayList<>();
-//
-//
-//
-//            for (JobDetails jobDetails : allDetailsJobs) {
-//
-//
-//                String userId = jobDetails.getUser() != null ? jobDetails.getUser().getUserId() : "";
-//
-//
-//                JobDetailsDto jobDetailsDto =  new  JobDetailsDto (
-//
-//                        jobDetails.getJobId () ,
-//                        jobDetails.getJobDescription () ,
-//                        jobDetails.getJobClosingDate () ,
-//                        jobDetails.getDateUpload () ,
-//                        jobDetails.getImgPath () ,
-//                        jobDetails.getQualifications () ,
-//                        jobDetails.getJobTitle () ,
-//                        userId
-//
-//                );
-//
-//                allDetailsJobsDto.add (jobDetailsDto);
-//
-//
-//            }
-//        return allDetailsJobsDto ;
-//    }
-
-
 
     public List<JobDetailsDto> getAllDetailsJobs() {
         List<JobDetails> allDetailsJobs = jobDetailsRepo.findAllOrderedByDateUpload(); // Use the new query

@@ -1,6 +1,7 @@
 package lk.joblk.Joblk.controller;
 
 import lk.joblk.Joblk.dto.CourseDto;
+import lk.joblk.Joblk.dto.JobDetailsDto;
 import lk.joblk.Joblk.dto.ResponseDto;
 import lk.joblk.Joblk.entity.Course;
 import lk.joblk.Joblk.repo.CourseRepo;
@@ -150,6 +151,14 @@ public ResponseEntity<CourseDto> courseSave(@PathVariable String userId, @Reques
         return ResponseEntity.ok(courseDTOList);
     }
 
+    @GetMapping("/getCourseUsersId/{userId}")
+    public ResponseEntity<List<CourseDto>> getCoursesByUserId(@PathVariable String userId) {
+        List<CourseDto> allCourseDetailsForUser = courseService.getCourseUserId(userId);
+        if (allCourseDetailsForUser.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(allCourseDetailsForUser);
+    }
 
 
 

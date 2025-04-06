@@ -16,7 +16,7 @@ public class CourseDto {
     private String courseStartDate;
     private String imgPath ;
     private String dateUpload ;
-    private String userId;  // Add userId field
+    private String userId;
 
 
 
@@ -42,6 +42,19 @@ public class CourseDto {
         this.imgPath = imgPath;
         this.dateUpload = dateUpload;
         this.userId = userId;
+    }
+
+    public CourseDto(int courseId, String courseDescription, String courseQualification, String dateUpload, String imgPath, String courseContent, String courseTitle, String courseLocation, String userId) {
+        this.courseId = courseId;
+        this.courseDescription = courseDescription;
+        this.courseQualification = courseQualification;
+        this.courseContent = courseContent;
+        this.courseTitle = courseTitle;
+        this.courseLocation = courseLocation;
+        this.dateUpload = dateUpload;
+        this.imgPath = imgPath;
+        this.userId = userId;
+
     }
 
     public String getUserId() {

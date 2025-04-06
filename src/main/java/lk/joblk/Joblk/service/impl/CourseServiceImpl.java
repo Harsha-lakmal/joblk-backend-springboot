@@ -2,7 +2,9 @@ package lk.joblk.Joblk.service.impl;
 
 
 import lk.joblk.Joblk.dto.CourseDto;
+import lk.joblk.Joblk.dto.JobDetailsDto;
 import lk.joblk.Joblk.entity.Course;
+import lk.joblk.Joblk.entity.JobDetails;
 import lk.joblk.Joblk.entity.User;
 import lk.joblk.Joblk.repo.CourseRepo;
 import lk.joblk.Joblk.repo.UserRepo;
@@ -22,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -254,6 +257,30 @@ public class CourseServiceImpl implements CourseService {
         }
 
         return courseDTOList;
+    }
+
+
+    @Override
+    public List<CourseDto> getCourseUserId(String userId) {
+        List<Course> userCourses = courseRepo.findAllByUserIdOrdered(userId);
+        List<CourseDto> courseDtos = new ArrayList<>();
+
+        for (Course course : userCourses) {
+            CourseDto courseDto = new CourseDto(
+                    course.getCourseId(),
+                    course.getCourseDescription(),
+                    course.getCourseQualification(),
+                    course.getDateUpload(),
+                    course.getImgPath(),
+                    course.getCourseContent(),
+                    course.getCourseTitle(),
+                    course.getCourseLocation(),
+                    course.getUser().getUserId()
+            );
+            courseDtos.add(courseDto);
+        }
+
+        return courseDtos;
     }
 
 
