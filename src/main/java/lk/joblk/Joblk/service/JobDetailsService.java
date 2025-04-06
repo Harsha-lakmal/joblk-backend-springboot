@@ -31,4 +31,6 @@ public interface JobDetailsService {
     JobDetailsDto jobsSave(JobDetailsDto jobDetailsDto, String userId);
 
     List<JobDetailsDto> getAllDetailsJobs();
+
+    List<JobDetailsDto> getJobsUserId(String userId);
 }

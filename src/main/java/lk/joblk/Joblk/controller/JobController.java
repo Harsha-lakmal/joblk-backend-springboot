@@ -1,6 +1,5 @@
 package lk.joblk.Joblk.controller;
 
-import lk.joblk.Joblk.dto.CourseDto;
 import lk.joblk.Joblk.dto.JobDetailsDto;
 import lk.joblk.Joblk.dto.ResponseDto;
 import lk.joblk.Joblk.entity.JobDetails;
@@ -152,6 +151,17 @@ public class JobController {
         }
         return ResponseEntity.ok(allDetailsJobs);
     }
+
+
+    @GetMapping("/getJobsUsersId/{userId}")
+    public ResponseEntity<List<JobDetailsDto>> getJobsUsersId(@PathVariable String userId) {
+        List<JobDetailsDto> allJobsDetailsForUser = jobDetailsService.getJobsUserId(userId);
+        if (allJobsDetailsForUser.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(allJobsDetailsForUser);
+    }
+
 
     //image upload part for job image
 

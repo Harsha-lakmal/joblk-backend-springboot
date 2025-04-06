@@ -1,8 +1,6 @@
 package lk.joblk.Joblk.service.impl;
 
-import lk.joblk.Joblk.dto.CourseDto;
 import lk.joblk.Joblk.dto.JobDetailsDto;
-import lk.joblk.Joblk.entity.Course;
 import lk.joblk.Joblk.entity.JobDetails;
 import lk.joblk.Joblk.entity.User;
 import lk.joblk.Joblk.repo.JobDetailsRepo;
@@ -23,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -279,4 +278,35 @@ public class JobDetailsServiceImpl implements JobDetailsService {
         }
         return allDetailsJobsDto;
     }
+
+    @Override
+    public List<JobDetailsDto> getJobsUserId(String userId) {
+        Optional<User> userOptional = userRepo.findById(userId);
+
+        if (userOptional.isEmpty()) {
+            return Collections.emptyList(); // User not found, return empty list
+        }
+
+        List<JobDetails> allDetailsJobs = jobDetailsRepo.findAllByUserIdOrdered (userId); // Use your custom query
+        List<JobDetailsDto> allDetailsJobsDto = new ArrayList<>();
+
+        for (JobDetails jobDetails : allDetailsJobs) {
+            if (jobDetails.getUser() != null && jobDetails.getUser().getUserId().equals(userId)) {
+                JobDetailsDto jobDetailsDto = new JobDetailsDto(
+                        jobDetails.getJobId(),
+                        jobDetails.getJobDescription(),
+                        jobDetails.getJobClosingDate(),
+                        jobDetails.getDateUpload(),
+                        jobDetails.getImgPath(),
+                        jobDetails.getQualifications(),
+                        jobDetails.getJobTitle(),
+                        jobDetails.getUser().getUserId()
+                );
+                allDetailsJobsDto.add(jobDetailsDto);
+            }
+        }
+
+        return allDetailsJobsDto;
+    }
+
 }

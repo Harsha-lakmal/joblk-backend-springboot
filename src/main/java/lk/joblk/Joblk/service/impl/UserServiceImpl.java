@@ -68,6 +68,7 @@ public class UserServiceImpl implements UserService {
         user.setImgPathCover (userDto.getImgPathCover ());
         user.setImgPathProfile (userDto.getImgPathProfile ());
         user.setRole (UserRoles.valueOf (userDto.getRole ()));
+        user.setRegisterDate (userDto.getRegisterDate ());
         User saveUser = userRepo.save (user);
 
     }
