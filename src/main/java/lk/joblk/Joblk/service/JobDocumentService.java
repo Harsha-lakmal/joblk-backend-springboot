@@ -1,14 +1,11 @@
 package lk.joblk.Joblk.service;
 
-import lk.joblk.Joblk.dto.JobDetailsDto;
 import lk.joblk.Joblk.dto.JobDocumentDto;
-import lk.joblk.Joblk.entity.JobDocument;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 public interface JobDocumentService {
     JobDocumentDto saveJobDocument(JobDocumentDto jobDocumentDto, int jobId);
@@ -33,4 +30,5 @@ public interface JobDocumentService {
 
     List<JobDocumentDto> getAllJobDouments();
 
+    String deleteDoucment(int id);
 }

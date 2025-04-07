@@ -1,9 +1,7 @@
 package lk.joblk.Joblk.controller;
 
-import lk.joblk.Joblk.dto.JobDetailsDto;
 import lk.joblk.Joblk.dto.JobDocumentDto;
-
-import lk.joblk.Joblk.entity.Course;
+import lk.joblk.Joblk.dto.ResponseDto;
 import lk.joblk.Joblk.entity.JobDocument;
 import lk.joblk.Joblk.repo.JobDocumentRepo;
 import lk.joblk.Joblk.service.JobDocumentService;
@@ -26,47 +24,57 @@ import java.util.Optional;
 public class JobDocumentController {
 
     @Autowired
-    private JobDocumentService jobDocumentService;
-
+    JobDocumentRepo jobDocumentRepo;
     @Autowired
-     JobDocumentRepo jobDocumentRepo ;
+    private JobDocumentService jobDocumentService;
+    @Autowired
+    private ResponseDto responseDto;
 
     @PostMapping("/saveJobDocument/{jobId}")
     public ResponseEntity<String> saveJobDocument(@PathVariable int jobId, @RequestBody JobDocumentDto jobDocumentDto) {
-        JobDocumentDto savedDoc = jobDocumentService.saveJobDocument(jobDocumentDto, jobId);
+        JobDocumentDto savedDoc = jobDocumentService.saveJobDocument (jobDocumentDto, jobId);
 
-        return ResponseEntity.ok("Job document saved successfully with ID: " + savedDoc.getId());
+        return ResponseEntity.ok ("Job document saved successfully with ID: " + savedDoc.getId ());
     }
-
-
 
 
     @GetMapping("/getAllJobDocuments")
     public ResponseEntity<List<JobDocumentDto>> getAllJobsDetails() {
         List<JobDocumentDto> allDetailsJobs = jobDocumentService.getAllJobDouments ();
-        if (allDetailsJobs.isEmpty()) {
-            return ResponseEntity.noContent().build();
+        if (allDetailsJobs.isEmpty ()) {
+            return ResponseEntity.noContent ().build ();
         }
-        return ResponseEntity.ok(allDetailsJobs);
+        return ResponseEntity.ok (allDetailsJobs);
+    }
+
+
+    @DeleteMapping("/deleteDocument/{id}")
+    public String deleteDocument(@PathVariable int id) {
+        String res = jobDocumentService.deleteDoucment (id);
+
+
+        return "Job document deleted successfully " + id;
+
     }
 
     //Cv document upload for Jobs
 
 
     @PostMapping("/uploadCvDocument/{id}")
-    public ResponseEntity<String> addFiles(@RequestParam("file") MultipartFile file, @PathVariable int  id) {
+    public ResponseEntity<String> addFiles(@RequestParam("file") MultipartFile file, @PathVariable int id) {
         try {
-            String result = jobDocumentService.saveFile(file, id);
+            String result = jobDocumentService.saveFile (file, id);
 
-            if ("00".equals(result)) {
-                return new ResponseEntity<>("Upload Success!", HttpStatus.CREATED);
+            if ("00".equals (result)) {
+                return new ResponseEntity<> ("Upload Success!", HttpStatus.CREATED);
             }
-            return new ResponseEntity<>("Upload Failed", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<> ("Upload Failed", HttpStatus.BAD_REQUEST);
 
         } catch (Exception e) {
-            return new ResponseEntity<>("Unexpected error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<> ("Unexpected error: " + e.getMessage (), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     private String getFileExtension(String url) {
         if (url == null || !url.contains (".")) {
             return null;
@@ -75,34 +83,29 @@ public class JobDocumentController {
     }
 
 
-
-
     @GetMapping("/getCvDocument/{id}")
     public ResponseEntity<byte[]> getCvDocument(@PathVariable("id") int id) {
         try {
-            byte[] cv = jobDocumentService.getCvDocument(id);
+            byte[] cv = jobDocumentService.getCvDocument (id);
 
             // Extract the file extension to determine the content type
-            String fileExtension = jobDocumentService.getFileExtension(id);
-            if (fileExtension == null || fileExtension.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            String fileExtension = jobDocumentService.getFileExtension (id);
+            if (fileExtension == null || fileExtension.isEmpty ()) {
+                return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
             }
 
             // Determine the correct media type based on file extension
-            MediaType mediaType = jobDocumentService.getMediaTypeForFileExtension(fileExtension);
+            MediaType mediaType = jobDocumentService.getMediaTypeForFileExtension (fileExtension);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(mediaType);
+            HttpHeaders headers = new HttpHeaders ();
+            headers.setContentType (mediaType);
 
-            return new ResponseEntity<>(cv, headers, HttpStatus.OK);
+            return new ResponseEntity<> (cv, headers, HttpStatus.OK);
         } catch (RuntimeException e) {
             // Handle exception gracefully
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<> (HttpStatus.NOT_FOUND);
         }
     }
-
-
-
 
 
     //image upload  Job Document for image
@@ -153,7 +156,6 @@ public class JobDocumentController {
     }
 
 
-
     private MediaType getMediaTypeForFileExtension(String extension) {
         switch (extension.toLowerCase ()) {
             case "png":
@@ -184,11 +186,6 @@ public class JobDocumentController {
         return s;
 
     }
-
-
-
-
-
 
 
 }

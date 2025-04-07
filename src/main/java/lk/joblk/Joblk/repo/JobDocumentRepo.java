@@ -15,4 +15,5 @@ public interface JobDocumentRepo extends JpaRepository<JobDocument, Integer> {
 
     @Query("SELECT j FROM JobDocument j ORDER BY j.applyDate DESC")
     List<JobDocument> findAllOrderedByApplyDate();
+
 }

@@ -264,6 +264,17 @@ public class JobDocumentServiceImpl implements JobDocumentService {
         return jobDocumentDtoList;
     }
 
+    @Override
+    public String deleteDoucment(int id) {
+       if (jobDocumentRepo. existsById (id)){
+           jobDocumentRepo.deleteById (id);
+           return "Job document deleted successfully";
+       }else {
+           return "Job document not deleted";
+       }
+    }
+
+
 
 }
 
