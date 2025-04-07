@@ -1,15 +1,14 @@
 package lk.joblk.Joblk.service;
 
-import lk.joblk.Joblk.dto.JobDocumentDto;
-import lk.joblk.Joblk.entity.JobDocument;
+import lk.joblk.Joblk.dto.CourseDocumentDto;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
-public interface JobDocumentService {
-    JobDocumentDto saveJobDocument(JobDocumentDto jobDocumentDto, int jobId);
+public interface CourseDocumentService {
+    CourseDocumentDto saveCourseDocument(CourseDocumentDto courseDocumentDto, int jobId);
 
     String saveFile(MultipartFile file, int id);
 
@@ -29,9 +28,9 @@ public interface JobDocumentService {
     String updateImage(int id, MultipartFile file) throws IOException;
 
 
-    List<JobDocumentDto> getAllJobDouments();
+    List<CourseDocumentDto> getAllJobDouments();
 
     String deleteDoucment(int id);
 
-    JobDocument createJobDocument(JobDocumentDto request);
+    CourseDocumentDto createCourseDocument(CourseDocumentDto request);
 }

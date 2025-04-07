@@ -1,10 +1,11 @@
 package lk.joblk.Joblk.controller;
 
+import lk.joblk.Joblk.dto.CourseDocumentDto;
 import lk.joblk.Joblk.dto.JobDocumentDto;
-import lk.joblk.Joblk.dto.ResponseDto;
+import lk.joblk.Joblk.entity.CourseDocument;
 import lk.joblk.Joblk.entity.JobDocument;
-import lk.joblk.Joblk.repo.JobDocumentRepo;
-import lk.joblk.Joblk.service.JobDocumentService;
+import lk.joblk.Joblk.repo.CourseDocumentRepo;
+import lk.joblk.Joblk.service.CourseDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,59 +19,57 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-
+@CrossOrigin
 @RestController
-@RequestMapping("api/v1/job")
-public class JobDocumentController {
+@RequestMapping("api/v1/course")
+public class CourseDocumentController {
 
     @Autowired
-    JobDocumentRepo jobDocumentRepo;
-    @Autowired
-    private JobDocumentService jobDocumentService;
-    @Autowired
-    private ResponseDto responseDto;
+    private CourseDocumentService courseDocumentService;
 
-    @PostMapping("/saveJobDocument/{jobId}")
-    public ResponseEntity<String> saveJobDocument(@PathVariable int jobId, @RequestBody JobDocumentDto jobDocumentDto) {
-        JobDocumentDto savedDoc = jobDocumentService.saveJobDocument (jobDocumentDto, jobId);
+    @Autowired
+    CourseDocumentRepo courseDocumentRepo;
 
-        return ResponseEntity.ok ("Job document saved successfully with ID: " + savedDoc.getId ());
+    @PostMapping("/saveCourseDocument/{courseID}")
+    public ResponseEntity<String> saveJobDocument(@PathVariable int courseID, @RequestBody CourseDocumentDto courseDocumentDto) {
+        CourseDocumentDto savedDoc = courseDocumentService.saveCourseDocument (courseDocumentDto, courseID);
+
+        return ResponseEntity.ok ("Course document saved successfully with ID: " + savedDoc.getId ());
     }
 
-    @PostMapping("/saveDocuments")
-    public ResponseEntity<String> createJobDocument(@RequestBody JobDocumentDto request) {
-        JobDocument savedDocument = jobDocumentService.createJobDocument(request);
-        return ResponseEntity.ok ("Job document  saved successfully");
+    @PostMapping("/saveDocumentCourse")
+    public ResponseEntity<String> createJobDocument(@RequestBody CourseDocumentDto request) {
+        CourseDocumentDto savedDocument = courseDocumentService.createCourseDocument (request);
+        return ResponseEntity.ok ("Course document  saved successfully");
     }
 
 
-
-    @GetMapping("/getAllJobDocuments")
-    public ResponseEntity<List<JobDocumentDto>> getAllJobsDetails() {
-        List<JobDocumentDto> allDetailsJobs = jobDocumentService.getAllJobDouments ();
-        if (allDetailsJobs.isEmpty ()) {
+    @GetMapping("/getAllCourseDocuments")
+    public ResponseEntity<List<CourseDocumentDto>> getAllJobsDetails() {
+        List<CourseDocumentDto> courseDocumentDto = courseDocumentService.getAllJobDouments ();
+        if (courseDocumentDto.isEmpty ()) {
             return ResponseEntity.noContent ().build ();
         }
-        return ResponseEntity.ok (allDetailsJobs);
+        return ResponseEntity.ok (courseDocumentDto);
     }
 
 
-    @DeleteMapping("/deleteDocument/{id}")
+    @DeleteMapping("/deleteDocumentCourse/{id}")
     public String deleteDocument(@PathVariable int id) {
-        String res = jobDocumentService.deleteDoucment (id);
+        String res = courseDocumentService.deleteDoucment (id);
 
 
-        return "Job document deleted successfully " + id;
+        return "Course document deleted successfully " + id;
 
     }
 
     //Cv document upload for Jobs
 
 
-    @PostMapping("/uploadCvDocument/{id}")
+    @PostMapping("/uploadCvDocumentCourse/{id}")
     public ResponseEntity<String> addFiles(@RequestParam("file") MultipartFile file, @PathVariable int id) {
         try {
-            String result = jobDocumentService.saveFile (file, id);
+            String result = courseDocumentService.saveFile (file, id);
 
             if ("00".equals (result)) {
                 return new ResponseEntity<> ("Upload Success!", HttpStatus.CREATED);
@@ -90,19 +89,19 @@ public class JobDocumentController {
     }
 
 
-    @GetMapping("/getCvDocument/{id}")
+    @GetMapping("/getCvDocumentCourse/{id}")
     public ResponseEntity<byte[]> getCvDocument(@PathVariable("id") int id) {
         try {
-            byte[] cv = jobDocumentService.getCvDocument (id);
+            byte[] cv = courseDocumentService.getCvDocument (id);
 
             // Extract the file extension to determine the content type
-            String fileExtension = jobDocumentService.getFileExtension (id);
+            String fileExtension = courseDocumentService.getFileExtension (id);
             if (fileExtension == null || fileExtension.isEmpty ()) {
                 return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
             }
 
             // Determine the correct media type based on file extension
-            MediaType mediaType = jobDocumentService.getMediaTypeForFileExtension (fileExtension);
+            MediaType mediaType = courseDocumentService.getMediaTypeForFileExtension (fileExtension);
 
             HttpHeaders headers = new HttpHeaders ();
             headers.setContentType (mediaType);
@@ -117,9 +116,9 @@ public class JobDocumentController {
 
     //image upload  Job Document for image
 
-    @PostMapping("/uploadDocumentImage/{id}")
+    @PostMapping("/uploadDocumentImageCourse/{id}")
     public ResponseEntity<String> imageUpload(@RequestParam("file") MultipartFile file, @PathVariable int id) throws IOException {
-        int i = jobDocumentService.imageUpload (file, id);
+        int i = courseDocumentService.imageUpload (file, id);
 
         if (i == 1) {
             return new ResponseEntity<String> ("Upload Success !", HttpStatus.CREATED);
@@ -129,16 +128,16 @@ public class JobDocumentController {
     }
 
 
-    @GetMapping("/getDocumentImage/{id}")
+    @GetMapping("/getDocumentImageCourse/{id}")
     public ResponseEntity<byte[]> getImage(@PathVariable int id) throws IOException {
 
-        Optional<JobDocument> jobDocumentOptional = jobDocumentRepo.findById (id);
-        if (!jobDocumentOptional.isPresent ()) {
+        Optional<CourseDocument> courseDocumentOptional = courseDocumentRepo.findById (id);
+        if (!courseDocumentOptional.isPresent ()) {
             return new ResponseEntity<> (HttpStatus.NOT_FOUND);
         }
 
-        JobDocument jobDocument = jobDocumentOptional.get ();
-        String imgUrl = jobDocument.getImagePath ();
+        CourseDocument courseDocument = courseDocumentOptional.get ();
+        String imgUrl = courseDocument.getImagePath ();
 
         String fileExtension = getFileExtension (imgUrl);
         if (fileExtension == null || fileExtension.isEmpty ()) {
@@ -147,7 +146,7 @@ public class JobDocumentController {
 
         byte[] image;
         try {
-            image = jobDocumentService.getImage (id);
+            image = courseDocumentService.getImage (id);
         } catch (FileNotFoundException e) {
             return new ResponseEntity<> (HttpStatus.NOT_FOUND);
         } catch (IOException e) {
@@ -181,15 +180,15 @@ public class JobDocumentController {
         }
     }
 
-    @DeleteMapping("/deleteDocumentImage/{id}")
+    @DeleteMapping("/deleteDocumentImageCourse/{id}")
     public String imageDelete(@PathVariable int id) {
-        String s = jobDocumentService.deleteImage (id);
+        String s = courseDocumentService.deleteImage (id);
         return s;
     }
 
-    @PutMapping("/updateDocumentImage/{id}")
+    @PutMapping("/updateDocumentImageCourse/{id}")
     public String updateImage(@PathVariable int id, @RequestParam("file") MultipartFile file) throws IOException {
-        String s = jobDocumentService.updateImage (id, file);
+        String s = courseDocumentService.updateImage (id, file);
         return s;
 
     }

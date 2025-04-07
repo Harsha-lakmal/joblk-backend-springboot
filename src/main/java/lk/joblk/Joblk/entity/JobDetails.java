@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,11 +28,10 @@ public class JobDetails {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-//    @ManyToMany(mappedBy = "appliedJobs")
-//    private List<JobDocument> applicants;
-//
-//    @OneToMany(mappedBy = "jobDetails", cascade = CascadeType.ALL)
-//    private List<JobDocument> jobDocuments = new ArrayList<> ();
+
+    @ManyToOne
+    @JoinColumn(name = "job_doc_id")
+    private JobDocument jobDocument;
 
 
     public JobDetails(int jobId, String jobDescription, String jobTitle, String qualifications, String jobClosingDate, String imgPath, String dateUpload) {

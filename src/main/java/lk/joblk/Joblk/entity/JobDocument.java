@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,14 +34,15 @@ public class JobDocument {
     private String address;
     private int jobId;
 
+    private  String setJobTitle ;
+    private  String userid  ;
 
-//    @ManyToMany
-//    @JoinTable(name = "job_document_job_details", joinColumns = @JoinColumn(name = "job_doc_id"), inverseJoinColumns = @JoinColumn(name = "job_id"))
-//    private List<JobDetails> appliedJobs;
 
-//    @ManyToOne
-//    @JoinColumn(name = "job_id")
-//    private JobDetails jobDetails;
+
+
+    @OneToMany(mappedBy = "jobDocument", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JobDetails> jobDetailsList;
+
 
 
     public JobDocument(Integer id, String username, String qualifications, int number, String gender, String imagePath, String cvPath, String applyDate, String userEmail, int age, String address) {
@@ -57,4 +60,7 @@ public class JobDocument {
     }
 
 
+    public void setJobTitle(String jobTitle) {
+        this.setJobTitle = jobTitle;
+    }
 }

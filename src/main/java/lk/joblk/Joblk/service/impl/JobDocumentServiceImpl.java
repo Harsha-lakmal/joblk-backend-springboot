@@ -1,10 +1,9 @@
 package lk.joblk.Joblk.service.impl;
 
-import lk.joblk.Joblk.dto.JobDetailsDto;
 import lk.joblk.Joblk.dto.JobDocumentDto;
-import lk.joblk.Joblk.entity.Course;
 import lk.joblk.Joblk.entity.JobDetails;
 import lk.joblk.Joblk.entity.JobDocument;
+import lk.joblk.Joblk.entity.User;
 import lk.joblk.Joblk.repo.JobDetailsRepo;
 import lk.joblk.Joblk.repo.JobDocumentRepo;
 import lk.joblk.Joblk.repo.UserRepo;
@@ -44,6 +43,7 @@ public class JobDocumentServiceImpl implements JobDocumentService {
     public JobDocumentDto saveJobDocument(JobDocumentDto jobDocumentDto, int jobId) {
         jobDetailsRepo.findById (jobId)
                 .orElseThrow (() -> new RuntimeException ("Job post not found with ID: " + jobId));
+
         JobDocument jobDocument = new JobDocument ();
         jobDocument.setUsername (jobDocumentDto.getUsername ());
         jobDocument.setQualifications (jobDocumentDto.getQualifications ());
@@ -74,6 +74,45 @@ public class JobDocumentServiceImpl implements JobDocumentService {
                 saved.getAddress ()
         );
     }
+
+
+    public JobDocument createJobDocument(JobDocumentDto request) {
+        JobDocument doc = new JobDocument();
+        doc.setUsername(request.getUsername());
+        doc.setQualifications(request.getQualifications());
+        doc.setAge(request.getAge());
+        doc.setGender(request.getGender());
+        doc.setImagePath(request.getImagePath());
+        doc.setCvPath(request.getCvPath());
+        doc.setApplyDate(request.getApplyDate());
+        doc.setUserEmail(request.getUserEmail());
+        doc.setNumber(request.getNumber());
+        doc.setAddress(request.getAddress());
+        doc.setJobId(request.getJobId());
+
+        // Get JobDetails
+        JobDetails jobDetails = jobDetailsRepo.findById(request.getJobId())
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        // Get User from JobDetails
+        User user = jobDetails.getUser();
+        if (user == null) {
+            throw new RuntimeException("User not found for this job");
+        }
+
+        // Copy data from JobDetails
+        doc.setJobTitle(jobDetails.getJobTitle());
+
+        doc.setUserid (user.getUserId ());
+
+        // Link entities
+        jobDetails.setJobDocument(doc);
+        doc.setJobDetailsList(List.of(jobDetails));
+
+        return jobDocumentRepo.save(doc);
+    }
+
+
 
     //cv document upload for Jobs
     @Override
@@ -254,9 +293,10 @@ public class JobDocumentServiceImpl implements JobDocumentService {
                     jobDocument.getId (),
                     jobDocument.getNumber () ,
                     jobDocument.getUserEmail (),
-                    jobDocument.getAddress ()
-
-
+                    jobDocument.getAddress (),
+                    jobDocument.getUserid () ,
+                    jobDocument.getSetJobTitle ()
+                    
             );
 
             jobDocumentDtoList.add(jobDocumentDto);
