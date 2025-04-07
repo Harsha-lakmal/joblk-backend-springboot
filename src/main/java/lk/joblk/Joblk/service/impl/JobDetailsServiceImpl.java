@@ -275,4 +275,7 @@ public class JobDetailsServiceImpl implements JobDetailsService {
         return allDetailsJobsDto;
     }
 
+
+
+
 }

@@ -2,6 +2,7 @@ package lk.joblk.Joblk.service;
 
 
 import lk.joblk.Joblk.dto.JobDetailsDto;
+import lk.joblk.Joblk.dto.JobDocumentDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -33,4 +34,5 @@ public interface JobDetailsService {
     List<JobDetailsDto> getAllDetailsJobs();
 
     List<JobDetailsDto> getJobsUserId(String userId);
+
 }

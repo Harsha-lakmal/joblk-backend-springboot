@@ -18,7 +18,6 @@ public class JobDetailsDto {
     private String dateUpload ;
     private  String userId ;
 
-
     public JobDetailsDto(int jobId, String jobDescription, String jobClosingDate, String dateUpload, String imgPath, String qualifications, String jobTitle, String userId) {
         this.jobId = jobId;
         this.jobDescription = jobDescription;
@@ -39,6 +38,5 @@ public class JobDetailsDto {
         this.jobClosingDate = jobClosingDate;
         this.imgPath = imgPath;
         this.dateUpload = dateUpload;
-
     }
 }

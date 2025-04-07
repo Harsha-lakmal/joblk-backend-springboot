@@ -1,6 +1,7 @@
 package lk.joblk.Joblk.controller;
 
 import lk.joblk.Joblk.dto.JobDetailsDto;
+import lk.joblk.Joblk.dto.JobDocumentDto;
 import lk.joblk.Joblk.dto.ResponseDto;
 import lk.joblk.Joblk.entity.JobDetails;
 import lk.joblk.Joblk.repo.JobDetailsRepo;
@@ -161,6 +162,7 @@ public class JobController {
         }
         return ResponseEntity.ok(allJobsDetailsForUser);
     }
+
 
 
     //image upload part for job image

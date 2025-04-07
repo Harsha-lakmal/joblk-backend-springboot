@@ -41,9 +41,7 @@ public interface UserService extends UserDetailsService {
 
     String deleteUserId(String id);
 
-    String saveFile(MultipartFile file, String userId) throws IOException;
 
-    byte[] getCvDocument(String userId);
 
     UserDto getUserById(String userId);
 
