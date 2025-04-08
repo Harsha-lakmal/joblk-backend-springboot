@@ -1,7 +1,6 @@
 package lk.joblk.Joblk.controller;
 
 import lk.joblk.Joblk.dto.JobDetailsDto;
-import lk.joblk.Joblk.dto.JobDocumentDto;
 import lk.joblk.Joblk.dto.ResponseDto;
 import lk.joblk.Joblk.entity.JobDetails;
 import lk.joblk.Joblk.repo.JobDetailsRepo;
@@ -19,9 +18,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
 @CrossOrigin
 @RestController
-    @RequestMapping("api/v1/job")
+@RequestMapping("api/v1/job")
 public class JobController {
     @Autowired
     ResponseDto responseDto;
@@ -33,8 +33,8 @@ public class JobController {
 
     @PostMapping("/addJob/{userId}")
     public ResponseEntity<JobDetailsDto> jobsSave(@PathVariable String userId, @RequestBody JobDetailsDto jobDetailsDto) {
-        JobDetailsDto savedJob = jobDetailsService.jobsSave(jobDetailsDto, userId);
-        return new ResponseEntity<>(savedJob, HttpStatus.CREATED);
+        JobDetailsDto savedJob = jobDetailsService.jobsSave (jobDetailsDto, userId);
+        return new ResponseEntity<> (savedJob, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateJob")
@@ -66,9 +66,6 @@ public class JobController {
             return new ResponseEntity<> (responseDto, HttpStatus.BAD_REQUEST);
         }
     }
-
-
-
 
 
     @DeleteMapping("/deleteJob/{jobId}")
@@ -146,23 +143,24 @@ public class JobController {
 
     @GetMapping("/getAllJobsDetails")
     public ResponseEntity<List<JobDetailsDto>> getAllJobsDetails() {
-        List<JobDetailsDto> allDetailsJobs = jobDetailsService.getAllDetailsJobs();
-        if (allDetailsJobs.isEmpty()) {
-            return ResponseEntity.noContent().build();
+        List<JobDetailsDto> allDetailsJobs = jobDetailsService.
+
+                getAllDetailsJobs ();
+        if (allDetailsJobs.isEmpty ()) {
+            return ResponseEntity.noContent ().build ();
         }
-        return ResponseEntity.ok(allDetailsJobs);
+        return ResponseEntity.ok (allDetailsJobs);
     }
 
 
     @GetMapping("/getJobsUsersId/{userId}")
     public ResponseEntity<List<JobDetailsDto>> getJobsUsersId(@PathVariable String userId) {
-        List<JobDetailsDto> allJobsDetailsForUser = jobDetailsService.getJobsUserId(userId);
-        if (allJobsDetailsForUser.isEmpty()) {
-            return ResponseEntity.noContent().build();
+        List<JobDetailsDto> allJobsDetailsForUser = jobDetailsService.getJobsUserId (userId);
+        if (allJobsDetailsForUser.isEmpty ()) {
+            return ResponseEntity.noContent ().build ();
         }
-        return ResponseEntity.ok(allJobsDetailsForUser);
+        return ResponseEntity.ok (allJobsDetailsForUser);
     }
-
 
 
     //image upload part for job image
