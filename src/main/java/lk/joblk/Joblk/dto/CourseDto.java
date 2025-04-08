@@ -30,7 +30,7 @@ public class CourseDto {
 
     }
 
-    // Constructor
+
     public CourseDto(int courseId, String courseTitle, String courseDescription, String courseLocation,String courseQualification, String courseContent, String courseStartDate, String imgPath, String dateUpload, String userId) {
         this.courseId = courseId;
         this.courseTitle = courseTitle;

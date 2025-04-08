@@ -34,10 +34,7 @@ public class CourseDocumentController {
         return ResponseEntity.ok ("Course document saved successfully with ID: " + savedDoc.getId ());
     }
 
-    public ResponseEntity<String> createJobDocument(@RequestBody CourseDocumentDto request) {
-        CourseDocumentDto savedDocument = courseDocumentService.createCourseDocument (request);
-        return ResponseEntity.ok ("Course document  saved successfully");
-    }
+
 
     @PostMapping("/saveDocumentCourse")
     public ResponseEntity<CourseDocument> createCourseDocument(@RequestBody CourseDocument courseDocument) {
