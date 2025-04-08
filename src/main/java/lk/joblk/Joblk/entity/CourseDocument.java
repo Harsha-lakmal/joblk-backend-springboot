@@ -27,19 +27,15 @@ public class CourseDocument {
     private String userEmail;
     private int number;
     private String address;
-    private int jobId;
-    private String setJobTitle;
+    private int courseId;
+    private String courseTitle;
     private String userid;
 
 
 
-    @OneToMany(mappedBy = "courseDocument", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Course> courses;
 
 
-    public void setJobTitle(String jobTitle) {
-        this.setJobTitle = jobTitle;
-    }
+
 
 
 }

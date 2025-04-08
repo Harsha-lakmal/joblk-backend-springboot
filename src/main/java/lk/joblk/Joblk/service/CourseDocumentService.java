@@ -1,6 +1,8 @@
 package lk.joblk.Joblk.service;
 
 import lk.joblk.Joblk.dto.CourseDocumentDto;
+import lk.joblk.Joblk.entity.CourseDocument;
+import lk.joblk.Joblk.entity.JobDocument;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,4 +35,6 @@ public interface CourseDocumentService {
     String deleteDoucment(int id);
 
     CourseDocumentDto createCourseDocument(CourseDocumentDto request);
+
+    CourseDocument createCourseDocuments(CourseDocument courseDocument);
 }

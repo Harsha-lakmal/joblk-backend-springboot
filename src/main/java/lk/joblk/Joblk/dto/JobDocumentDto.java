@@ -22,7 +22,6 @@ public class JobDocumentDto {
     private  String address ;
     private  int jobId ;
     private  String userId   ;
-
     private  String jobTitle ;
 
 

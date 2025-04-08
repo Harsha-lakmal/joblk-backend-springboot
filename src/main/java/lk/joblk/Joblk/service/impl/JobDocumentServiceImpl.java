@@ -106,12 +106,24 @@ public class JobDocumentServiceImpl implements JobDocumentService {
         doc.setUserid (user.getUserId ());
 
         // Link entities
-        jobDetails.setJobDocument(doc);
-        doc.setJobDetailsList(List.of(jobDetails));
+
 
         return jobDocumentRepo.save(doc);
     }
 
+
+    public JobDocument createJobDocuments(JobDocument jobDocument) {
+        // Fetch the JobDetails by jobId
+        JobDetails jobDetails = jobDetailsRepo.findById(jobDocument.getJobId())
+                .orElseThrow(() -> new RuntimeException("Job not found for id: " + jobDocument.getJobId()));
+
+        // Set the jobTitle and userId from JobDetails
+        jobDocument.setJobTitle(jobDetails.getJobTitle());
+        jobDocument.setUserid(String.valueOf(jobDetails.getUser().getUserId ()));  // Assuming user has an 'id' field
+
+        // Save the JobDocument
+        return jobDocumentRepo.save(jobDocument);
+    }
 
 
     //cv document upload for Jobs
@@ -295,7 +307,7 @@ public class JobDocumentServiceImpl implements JobDocumentService {
                     jobDocument.getUserEmail (),
                     jobDocument.getAddress (),
                     jobDocument.getUserid () ,
-                    jobDocument.getSetJobTitle ()
+                    jobDocument.getJobTitle ()
                     
             );
 
@@ -313,6 +325,7 @@ public class JobDocumentServiceImpl implements JobDocumentService {
            return "Job document not deleted";
        }
     }
+
 
 
 

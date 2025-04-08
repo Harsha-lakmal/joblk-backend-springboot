@@ -20,9 +20,9 @@ public class CourseDocumentDto {
         private  String UserEmail ;
         private  int number ;
         private  String address ;
-        private  int jobId ;
+        private  int courseId ;
         private  String userId   ;
-        private  String jobTitle ;
+        private  String courseTitle ;
 
     public CourseDocumentDto(int id, String username, String qualifications, int number, String gender, String imagePath, String cvPath, String applyDate, String userEmail, int age, String address) {
 
@@ -41,8 +41,8 @@ public class CourseDocumentDto {
 
     }
 
-    public CourseDocumentDto(int jobId, String username, String qualifications, int age, String gender, String imagePath, String cvPath, String applyDate, int id, int number, String userEmail, String address, String userid, String setJobTitle) {
-    this.jobId = jobId;
+    public CourseDocumentDto(int courseId, String username, String qualifications, int age, String gender, String imagePath, String cvPath, String applyDate, int id, int number, String userEmail, String address, String userid, String courseTitle) {
+    this.courseId = courseId;
     this.username = username;
     this.qualifications = qualifications;
     this.age = age;
@@ -53,7 +53,7 @@ public class CourseDocumentDto {
     this.UserEmail = userEmail;
     this.number = number;
     this.userId = userid;
-    this.jobTitle = setJobTitle;
+    this.courseTitle = courseTitle;
     this.id = id ;
     this.address = address;
 

@@ -1,9 +1,7 @@
 package lk.joblk.Joblk.controller;
 
 import lk.joblk.Joblk.dto.CourseDocumentDto;
-import lk.joblk.Joblk.dto.JobDocumentDto;
 import lk.joblk.Joblk.entity.CourseDocument;
-import lk.joblk.Joblk.entity.JobDocument;
 import lk.joblk.Joblk.repo.CourseDocumentRepo;
 import lk.joblk.Joblk.service.CourseDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,22 +23,30 @@ import java.util.Optional;
 public class CourseDocumentController {
 
     @Autowired
+    CourseDocumentRepo courseDocumentRepo;
+    @Autowired
     private CourseDocumentService courseDocumentService;
 
-    @Autowired
-    CourseDocumentRepo courseDocumentRepo;
-
     @PostMapping("/saveCourseDocument/{courseID}")
-    public ResponseEntity<String> saveJobDocument(@PathVariable int courseID, @RequestBody CourseDocumentDto courseDocumentDto) {
+    public ResponseEntity<String> saveCoursesDocument(@PathVariable int courseID, @RequestBody CourseDocumentDto courseDocumentDto) {
         CourseDocumentDto savedDoc = courseDocumentService.saveCourseDocument (courseDocumentDto, courseID);
 
         return ResponseEntity.ok ("Course document saved successfully with ID: " + savedDoc.getId ());
     }
 
-    @PostMapping("/saveDocumentCourse")
     public ResponseEntity<String> createJobDocument(@RequestBody CourseDocumentDto request) {
         CourseDocumentDto savedDocument = courseDocumentService.createCourseDocument (request);
         return ResponseEntity.ok ("Course document  saved successfully");
+    }
+
+    @PostMapping("/saveDocumentCourse")
+    public ResponseEntity<CourseDocument> createCourseDocument(@RequestBody CourseDocument courseDocument) {
+        try {
+            CourseDocument createdJobDocument = courseDocumentService.createCourseDocuments (courseDocument);
+            return new ResponseEntity<> (createdJobDocument, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<> (null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

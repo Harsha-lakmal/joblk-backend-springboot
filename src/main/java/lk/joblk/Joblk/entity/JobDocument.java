@@ -34,14 +34,11 @@ public class JobDocument {
     private String address;
     private int jobId;
 
-    private  String setJobTitle ;
+    private  String JobTitle ;
     private  String userid  ;
 
 
 
-
-    @OneToMany(mappedBy = "jobDocument", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<JobDetails> jobDetailsList;
 
 
 
@@ -61,6 +58,6 @@ public class JobDocument {
 
 
     public void setJobTitle(String jobTitle) {
-        this.setJobTitle = jobTitle;
+        this.JobTitle = jobTitle;
     }
 }

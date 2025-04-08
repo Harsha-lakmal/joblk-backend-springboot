@@ -29,9 +29,7 @@ public class JobDetails {
     private User user;
 
 
-    @ManyToOne
-    @JoinColumn(name = "job_doc_id")
-    private JobDocument jobDocument;
+
 
 
     public JobDetails(int jobId, String jobDescription, String jobTitle, String qualifications, String jobClosingDate, String imgPath, String dateUpload) {

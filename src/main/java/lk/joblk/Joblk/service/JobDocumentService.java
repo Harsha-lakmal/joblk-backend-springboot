@@ -34,4 +34,6 @@ public interface JobDocumentService {
     String deleteDoucment(int id);
 
     JobDocument createJobDocument(JobDocumentDto request);
+
+    JobDocument createJobDocuments(JobDocument jobDocument);
 }

@@ -1,7 +1,9 @@
 package lk.joblk.Joblk.service.impl;
 
 import lk.joblk.Joblk.dto.CourseDocumentDto;
-import lk.joblk.Joblk.entity.*;
+import lk.joblk.Joblk.entity.Course;
+import lk.joblk.Joblk.entity.CourseDocument;
+import lk.joblk.Joblk.entity.User;
 import lk.joblk.Joblk.repo.CourseDocumentRepo;
 import lk.joblk.Joblk.repo.CourseRepo;
 import lk.joblk.Joblk.service.CourseDocumentService;
@@ -33,10 +35,9 @@ public class CourseDocumentServiceImpl implements CourseDocumentService {
     CourseRepo courseRepo;
 
 
-
     @Override
-    public CourseDocumentDto saveCourseDocument(CourseDocumentDto courseDocumentDto, int jobId) {
-        courseDocumentRepo.findById (jobId).orElseThrow (() -> new RuntimeException ("Course  post not found with ID: " + jobId));
+    public CourseDocumentDto saveCourseDocument(CourseDocumentDto courseDocumentDto, int courseId) {
+        courseDocumentRepo.findById (courseId).orElseThrow (() -> new RuntimeException ("Course  post not found with ID: " + courseId));
 
         CourseDocument courseDocument = new CourseDocument ();
         courseDocument.setUsername (courseDocumentDto.getUsername ());
@@ -50,7 +51,7 @@ public class CourseDocumentServiceImpl implements CourseDocumentService {
         courseDocument.setAge (courseDocumentDto.getAge ());
         courseDocument.setAddress (courseDocumentDto.getAddress ());
 
-        courseDocument.setJobId (jobId);
+        courseDocument.setCourseId (courseId);
 
         CourseDocument saved = courseDocumentRepo.save (courseDocument);
 
@@ -59,7 +60,7 @@ public class CourseDocumentServiceImpl implements CourseDocumentService {
 
 
     public CourseDocumentDto createCourseDocument(CourseDocumentDto request) {
-        
+
         CourseDocument doc = new CourseDocument ();
         doc.setUsername (request.getUsername ());
         doc.setQualifications (request.getQualifications ());
@@ -71,10 +72,10 @@ public class CourseDocumentServiceImpl implements CourseDocumentService {
         doc.setUserEmail (request.getUserEmail ());
         doc.setNumber (request.getNumber ());
         doc.setAddress (request.getAddress ());
-        doc.setJobId (request.getJobId ());
+        doc.setCourseId (request.getCourseId ());
 
-        
-        Course course = courseRepo.findById (request.getJobId ()).orElseThrow (() -> new RuntimeException ("Course not found"));
+
+        Course course = courseRepo.findById (request.getCourseId ()).orElseThrow (() -> new RuntimeException ("Course not found"));
 
         // Get User from JobDetails
         User user = course.getUser ();
@@ -83,16 +84,27 @@ public class CourseDocumentServiceImpl implements CourseDocumentService {
         }
 
         // Copy data from JobDetails
-        doc.setJobTitle (course.getCourseTitle ());
+        doc.setCourseTitle (course.getCourseTitle ());
 
         doc.setUserid (user.getUserId ());
 
         // Link entities
-        course.setCourseDocument (doc);
-        doc.setCourses (List.of (course));
         courseDocumentRepo.save (doc);
 
-        return new CourseDocumentDto() ;
+        return new CourseDocumentDto ();
+    }
+
+
+    public CourseDocument createCourseDocuments(CourseDocument courseDocument) {
+        // Fetch the JobDetails by jobId
+        Course course = courseRepo.findById (courseDocument.getCourseId ()).orElseThrow (() -> new RuntimeException ("Job not found for id: " + courseDocument.getCourseId ()));
+
+        // Set the jobTitle and userId from JobDetails
+        courseDocument.setCourseTitle (course.getCourseTitle ());
+        courseDocument.setUserid (String.valueOf (course.getUser ().getUserId ()));  // Assuming user has an 'id' field
+
+        // Save the JobDocument
+        return courseDocumentRepo.save (courseDocument);
     }
 
 
@@ -253,13 +265,13 @@ public class CourseDocumentServiceImpl implements CourseDocumentService {
     }
 
     public List<CourseDocumentDto> getAllJobDouments() {
-        
+
         List<CourseDocument> courseDocuments = courseDocumentRepo.findAllOrderedByApplyDate (); // Use the new query
         List<CourseDocumentDto> courseDocumentDtos = new ArrayList<> ();
 
         for (CourseDocument courseDocument : courseDocuments) {
 
-            CourseDocumentDto courseDocumentDto = new CourseDocumentDto (courseDocument.getJobId (), courseDocument.getUsername (), courseDocument.getQualifications (), courseDocument.getAge (), courseDocument.getGender (), courseDocument.getImagePath (), courseDocument.getCvPath (), courseDocument.getApplyDate (), courseDocument.getId (), courseDocument.getNumber (), courseDocument.getUserEmail (), courseDocument.getAddress (), courseDocument.getUserid (), courseDocument.getSetJobTitle ()
+            CourseDocumentDto courseDocumentDto = new CourseDocumentDto (courseDocument.getCourseId (), courseDocument.getUsername (), courseDocument.getQualifications (), courseDocument.getAge (), courseDocument.getGender (), courseDocument.getImagePath (), courseDocument.getCvPath (), courseDocument.getApplyDate (), courseDocument.getId (), courseDocument.getNumber (), courseDocument.getUserEmail (), courseDocument.getAddress (), courseDocument.getUserid (), courseDocument.getCourseTitle ()
 
             );
 

@@ -29,9 +29,6 @@ public class Course {
     private User user;
 
 
-    @ManyToOne
-    @JoinColumn(name = "course_doc_id")
-    private CourseDocument courseDocument;
 
     public Course(int courseId, String courseTitle, String courseDescription, String courseQualification, String courseStartDate, String courseContent, String imgPath, String courseLocation, String dateUpload) {
         this.courseId = courseId;

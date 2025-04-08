@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/job")
-public class JobDocumentController {
+public class       JobDocumentController {
 
     @Autowired
     JobDocumentRepo jobDocumentRepo;
@@ -37,10 +37,16 @@ public class JobDocumentController {
         return ResponseEntity.ok ("Job document saved successfully with ID: " + savedDoc.getId ());
     }
 
+
+
     @PostMapping("/saveDocuments")
-    public ResponseEntity<String> createJobDocument(@RequestBody JobDocumentDto request) {
-        JobDocument savedDocument = jobDocumentService.createJobDocument(request);
-        return ResponseEntity.ok ("Job document  saved successfully");
+    public ResponseEntity<JobDocument> createJobDocument(@RequestBody JobDocument jobDocument) {
+        try {
+            JobDocument createdJobDocument = jobDocumentService.createJobDocuments(jobDocument);
+            return new ResponseEntity<>(createdJobDocument, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
