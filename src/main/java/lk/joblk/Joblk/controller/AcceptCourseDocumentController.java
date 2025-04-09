@@ -1,7 +1,6 @@
 package lk.joblk.Joblk.controller;
 
 import lk.joblk.Joblk.entity.AcceptCourseDocument;
-import lk.joblk.Joblk.entity.CourseDocument;
 import lk.joblk.Joblk.service.AcceptCourseDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
