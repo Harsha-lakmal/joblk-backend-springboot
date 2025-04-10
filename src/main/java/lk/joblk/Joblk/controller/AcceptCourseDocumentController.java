@@ -1,7 +1,7 @@
 package lk.joblk.Joblk.controller;
 
 import lk.joblk.Joblk.dto.AcceptCourseDocumentDto;
-import lk.joblk.Joblk.dto.AcceptJobDocumentDto;
+
 import lk.joblk.Joblk.entity.AcceptCourseDocument;
 import lk.joblk.Joblk.service.AcceptCourseDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +42,7 @@ public class AcceptCourseDocumentController {
     public ResponseEntity<String> deleteAcceptCourseDocument(@PathVariable int id ) {
         try {
             acceptCourseDocumentService.deleteCourseAcceptDocumentDetails(id);
+
             return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<> ("Fail to delete ", HttpStatus.BAD_REQUEST);

@@ -1,7 +1,6 @@
 package lk.joblk.Joblk.controller;
 
 import lk.joblk.Joblk.dto.CourseDto;
-import lk.joblk.Joblk.dto.JobDetailsDto;
 import lk.joblk.Joblk.dto.ResponseDto;
 import lk.joblk.Joblk.entity.Course;
 import lk.joblk.Joblk.repo.CourseRepo;
