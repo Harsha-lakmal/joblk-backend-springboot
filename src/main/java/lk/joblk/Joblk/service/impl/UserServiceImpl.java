@@ -124,8 +124,6 @@ public class UserServiceImpl implements UserService {
 
             updateUserDetails.setUsername (userDto.getUsername ());
             updateUserDetails.setPassword (userDto.getPassword ()); // Secure password encoding
-            updateUserDetails.setImgPathCover (userDto.getImgPathCover ());
-            updateUserDetails.setImgPathProfile (userDto.getImgPathProfile ());
             updateUserDetails.setRole (UserRoles.valueOf (userDto.getRole ()));
             updateUserDetails.setEmail (userDto.getEmail ());
 

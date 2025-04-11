@@ -179,7 +179,6 @@ public class JobDetailsServiceImpl implements JobDetailsService {
             if (jobDetails != null) {
                 jobDetails.setJobTitle (jobDetailsDto.getJobTitle ());
                 jobDetails.setJobDescription (jobDetailsDto.getJobDescription ());
-                jobDetails.setImgPath (jobDetailsDto.getImgPath ());
                 jobDetails.setQualifications (jobDetailsDto.getQualifications ());
                 jobDetails.setJobClosingDate (jobDetailsDto.getJobClosingDate ());
 
