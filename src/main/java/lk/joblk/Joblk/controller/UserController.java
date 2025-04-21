@@ -1,12 +1,14 @@
 package lk.joblk.Joblk.controller;
 
 
+import jakarta.annotation.Resource;
 import lk.joblk.Joblk.dto.LoginDto;
 import lk.joblk.Joblk.dto.ResponseDto;
 import lk.joblk.Joblk.dto.UserDto;
 import lk.joblk.Joblk.entity.User;
 import lk.joblk.Joblk.repo.UserRepo;
 import lk.joblk.Joblk.service.UserService;
+import lk.joblk.Joblk.utils.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

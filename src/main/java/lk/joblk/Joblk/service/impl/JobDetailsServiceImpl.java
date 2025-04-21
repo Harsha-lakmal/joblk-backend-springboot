@@ -6,6 +6,7 @@ import lk.joblk.Joblk.entity.User;
 import lk.joblk.Joblk.repo.JobDetailsRepo;
 import lk.joblk.Joblk.repo.UserRepo;
 import lk.joblk.Joblk.service.JobDetailsService;
+import lk.joblk.Joblk.utils.VarList;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
