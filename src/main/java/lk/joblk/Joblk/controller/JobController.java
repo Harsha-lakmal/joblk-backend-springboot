@@ -246,7 +246,6 @@ public class JobController {
     public String updateImage(@PathVariable int jobId, @RequestParam("file") MultipartFile file) throws IOException {
         String s = jobDetailsService.updateImage (jobId, file);
         return s;
-
     }
 
 

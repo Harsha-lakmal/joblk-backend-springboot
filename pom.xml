@@ -93,6 +93,15 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
+
+
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-dialogflow</artifactId>
+			<version>4.30.0</version> <!-- or latest available -->
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

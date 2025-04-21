@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "joblk-support-team-gvcb",
+  "private_key_id": "3ebb7fc858283e11f34884cb5844f840c8d8a12e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCTdeJGu+0p7+9n\ns2/MAVzWqml7yFNsR7xSikt6gNrWdKHvvkppWyKzpGI5WLcP7dLVYLlr4kOSCPPH\nN8pUbCS6/vJlyJqV3MA2D+I3gtcWwIhDrqvmDaCK4GCm+U9cZw6Y26aqNxLF+vVy\nVWpW+qJ54M5N7HKN8kg0mP+TqQ2YJ4dmzJ9x3cr2cvjVF1GB51rJJSeo4H5SbT9K\ntRH8RuF1eATttfWPbuPW+fygyryX+un3Tg0AWI2glCH8m7OzXLGmwRH8hAqC2604\n/fiJ1tJuQJjgMwzA9LSw+nEineTQ5ALzPQ4bvAkMDPSLUWawq5vHbacga+IBll9j\nE7BwHTwxAgMBAAECggEAQRZ+D8nAh8vL6QKXfL03PNuQXt5QEFHjqq03XrXEondt\nyRQ95R4ghZmv728cso+/iYa9oYSIXcvMyqjyCmyHk/CXjtzKew6q2tINAIKkrPrD\nytgtMQjfzZz3nIwb/wXQOCFwAd74TuIUd+iC3SyZDeHwPg35jHUecPT9jrBGe1t/\nzO0hI/sfU4sM0pS8mlmZi0ooGgE9FnmeLrM2VGBnvofonDfpBY0Q+knmjQvarqWs\nHEbRIO4WMcOIV5e/fLCATm/ajf9Y/5KcwjEIKaY13uzMjvU6DJpruOxvtoYwjL62\n1Aj2kDTNR26SJSAssCQrU6aWSjW2MLOSokW5YUZABwKBgQDEcbAzh9df1nmD9yvs\nrVsHPjAufu+JDAUjrH94keXYLtY+zs0y+GqZPXMA5VOhtm3DDpPK+CW8Qh/raL+E\nO1x7I61Emlqv5iccne2b8RZ/TJZzsi2hOYR1r4WhfmHXo4oxqrd9BDYPKrYVSELl\nLJi8uT37ofVZXKw9jOeZXGW5cwKBgQDAKoGhcxLjr/3FnWnXYVGWWsuG0dkkiPap\nfCJuOCVhF5cGUeECk/1IPPXbvJOkry89spKJbwjfoI4LaFdB9NN7a7wdcHIiTnoy\ntkdUG7OZQoSGd39vc3OfsvHWroy+ExiJdzb0M+WOudKBnfL/jPpQSyFou8vB4ohk\nm+p0dYyaywKBgGNoVI3/E9H/qoZJMgUWxJWptqAQxA5J8t/WjrroubLoIKqv488D\nPo5FNkkhw2x18J1gZxGy+QWHQLfTzfaQQ4Bc0XWB1ppkkS4+DNt46LWKgCgT5ltL\ny+fx5mGOntyMeYYgqbGty91o87NZWeC27KOz6dXIY2vRJagQAbLtutxZAoGAdtOR\n9xCeNJbl+GWfRiSSe8PHKKXofPQIesMc00T6sDATHkBRP/Pc4ed4LBlOvr3pG2Cp\nxjwXo5i3XQx3MHzArQfwec/Hc7lNTMB0GOlMRE/ifPe1oGgmrjDL5HFo7DwIpzBF\nlfnlUD1NkwLleOpm+nGKxiWiGFEJABV9g+gQOsMCgYAl66wXsTbHY1dTLon5M3Cz\nkGwGjC4AqlVTV8lSp9Q6VVux13wQYil0BdpxWHAmvhOhmSlZqpbyH+EF8AxcLtqE\nnuKohptjdPlsEM5z/+1cpHT8UceDTK0mDYy+8hcSN+Vxa9lsbnTV7hLE41TPUEwU\n6jOL2L29W5I5Gutergf56g==\n-----END PRIVATE KEY-----\n",
+  "client_email": "joblk-support-team@joblk-support-team-gvcb.iam.gserviceaccount.com",
+  "client_id": "110268529280242060608",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/joblk-support-team%40joblk-support-team-gvcb.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -19,3 +19,9 @@ spring:
 server:
   port: 8080
 
+
+  main:
+    allow-bean-definition-overriding: true
+
+GOOGLE_APPLICATION_CREDENTIALS: src/main/resources/dialogflow-key.json
+
