@@ -2,14 +2,11 @@ package lk.joblk.Joblk.service.impl;
 
 
 import lk.joblk.Joblk.dto.CourseDto;
-import lk.joblk.Joblk.dto.JobDetailsDto;
 import lk.joblk.Joblk.entity.Course;
-import lk.joblk.Joblk.entity.JobDetails;
 import lk.joblk.Joblk.entity.User;
 import lk.joblk.Joblk.repo.CourseRepo;
 import lk.joblk.Joblk.repo.UserRepo;
 import lk.joblk.Joblk.service.CourseService;
-import lk.joblk.Joblk.utils.VarList;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -24,7 +21,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

@@ -5,7 +5,6 @@ import lk.joblk.Joblk.dto.ResponseDto;
 import lk.joblk.Joblk.entity.JobDetails;
 import lk.joblk.Joblk.repo.JobDetailsRepo;
 import lk.joblk.Joblk.service.JobDetailsService;
-import lk.joblk.Joblk.utils.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
