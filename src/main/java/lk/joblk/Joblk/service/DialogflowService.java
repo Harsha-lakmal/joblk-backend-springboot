@@ -6,22 +6,18 @@ import com.google.cloud.dialogflow.v2.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 
 @Service
 public class DialogflowService {
 
     public String detectIntentTexts(String projectId, String text, String sessionId, String languageCode) throws Exception {
-        // ඔබේ credentials load කරගන්න
         GoogleCredentials credentials = GoogleCredentials.fromStream(
                 new ClassPathResource("dialogflow.json").getInputStream());
 
-        // Sessions settings සැකසීම
         SessionsSettings sessionsSettings = SessionsSettings.newBuilder()
                 .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
                 .build();
 
-        // Authenticated client සෑදීම
         try (SessionsClient sessionsClient = SessionsClient.create(sessionsSettings)) {
             SessionName session = SessionName.of(projectId, sessionId);
             TextInput.Builder textInput = TextInput.newBuilder().setText(text).setLanguageCode(languageCode);
